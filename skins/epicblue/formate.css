@@ -1,4 +1,4 @@
-/* OGAME: Epic Blue XX (IE Version) Skin per "OGame": www.ogame.it ; Skin by Goten ; Italian Skin © ; per proposte, lamentele, suggerimenti, consigli:  Goten_ssj9999@hotmail.com */
+/* OGAME: Epic Blue XX (IE Version) Skin per "OGame": www.ogame.it ; Skin by Goten ; Italian Skin ï¿½ ; per proposte, lamentele, suggerimenti, consigli:  Goten_ssj9999@hotmail.com */
 ., #, td, th, textarea, body, table{font-family:Tahoma,sans-serif;font-size:11px;}
 img{border:0px;}
 p table{border:0px;}
@@ -203,3 +203,11 @@ th a[href="#"]{text-decoration:none}
 a{outline:0;}
 a img{border:0;}
 span.noresources{text-decoration:underline;font-weight:bold;color:#E6EBFB;}
+/* TODO - copy the following classes to other skin files. Generated a cachebuster for this file. */
+.menu-section > * {
+    background-color: #344566;
+    border: 1px solid #415680;
+}
+.bg-color {
+    background-color: #344566;
+}
