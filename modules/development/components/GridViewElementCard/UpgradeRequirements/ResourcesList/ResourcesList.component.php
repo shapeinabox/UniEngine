@@ -2,6 +2,7 @@
 
 namespace UniEngine\Engine\Modules\Development\Components\GridViewElementCard\UpgradeRequirements\ResourcesList;
 
+
 use UniEngine\Engine\Includes\Helpers\World\Elements;
 use UniEngine\Engine\Includes\Helpers\World\Resources;
 
@@ -15,13 +16,15 @@ use UniEngine\Engine\Includes\Helpers\World\Resources;
 //  Returns: Object
 //      - componentHTML (String)
 //
-function render ($props) {
-    global $_SkinPath;
+function render($props)
+{
+    global $_SkinPath, $_Vars_Prices;
 
     $localTemplateLoader = createLocalTemplateLoader(__DIR__);
 
     $tplBodyCache = [
         'resource_box' => $localTemplateLoader('resource_box'),
+        'transport_needed' => $localTemplateLoader('transport_needed'),
     ];
 
     $elementID = $props['elementID'];
@@ -31,12 +34,12 @@ function render ($props) {
 
 
     $resourceIcons = [
-        'metal'         => 'metall',
-        'crystal'       => 'kristall',
-        'deuterium'     => 'deuterium',
-        'energy'        => 'energie',
-        'energy_max'    => 'energie',
-        'darkEnergy'    => 'darkenergy'
+        'metal' => 'metall',
+        'crystal' => 'kristall',
+        'deuterium' => 'deuterium',
+        'energy' => 'energie',
+        'energy_max' => 'energie',
+        'darkEnergy' => 'darkenergy'
     ];
 
     $upgradeCost = Elements\calculatePurchaseCost(
@@ -48,6 +51,9 @@ function render ($props) {
     );
 
     $subcomponentsResourceBoxesHTML = [];
+
+    $totalCost = 0;
+    $totalDeficitCost = 0;
 
     foreach ($upgradeCost as $costResourceKey => $costValue) {
         $currentResourceState = Resources\getResourceState(
@@ -66,19 +72,24 @@ function render ($props) {
             'red' => $hasResourceDeficit,
         ]);
         $resourceDeficitValue = (
-            $hasResourceDeficit ?
+        $hasResourceDeficit ?
             '(' . prettyNumber($resourceLeft) . ')' :
             '&nbsp;'
         );
 
+        $totalCost += $costValue;
+        if ($hasResourceDeficit) {
+            $totalDeficitCost += abs($resourceLeft);
+        }
+
         $resourceCostTPLData = [
-            'SkinPath'      => $_SkinPath,
-            'ResKey'        => $costResourceKey,
-            'ResImg'        => $resourceIcons[$costResourceKey],
-            'ResColor'      => $resourceCostColor,
-            'Value'         => prettyNumber($costValue),
+            'SkinPath' => $_SkinPath,
+            'ResKey' => $costResourceKey,
+            'ResImg' => $resourceIcons[$costResourceKey],
+            'ResColor' => $resourceCostColor,
+            'Value' => prettyNumber($costValue),
             'ResMinusColor' => $resourceDeficitColor,
-            'MinusValue'    => $resourceDeficitValue,
+            'MinusValue' => $resourceDeficitValue,
         ];
 
         $subcomponentsResourceBoxesHTML[] = parsetemplate(
@@ -86,6 +97,17 @@ function render ($props) {
             $resourceCostTPLData
         );
     }
+
+    $totalMegaCargoNeeded = floor($totalCost / $_Vars_Prices[217]['capacity']) + 1;
+    $deficitMegaCargoNeeded = ($totalDeficitCost > 0) ? floor($totalDeficitCost / $_Vars_Prices[217]['capacity']) + 1 : 0;
+
+    $subcomponentsResourceBoxesHTML[] = parsetemplate(
+        $tplBodyCache['transport_needed'],
+        [
+            'TotalNeeded' => $totalMegaCargoNeeded > 0 ? $totalMegaCargoNeeded : '&nbsp;',
+            'MinusNeeded' => $deficitMegaCargoNeeded > 0 ? $deficitMegaCargoNeeded : '&nbsp;',
+        ]
+    );
 
     $componentHTML = implode('', $subcomponentsResourceBoxesHTML);
 
