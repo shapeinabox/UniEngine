@@ -104,8 +104,8 @@ function render($props)
     $subcomponentsResourceBoxesHTML[] = parsetemplate(
         $tplBodyCache['transport_needed'],
         [
-            'TotalNeeded' => $totalMegaCargoNeeded > 0 ? $totalMegaCargoNeeded : '&nbsp;',
-            'MinusNeeded' => $deficitMegaCargoNeeded > 0 ? $deficitMegaCargoNeeded : '&nbsp;',
+            'TotalNeeded' => $totalMegaCargoNeeded > 0 ? prettyNumber($totalMegaCargoNeeded) : '&nbsp;',
+            'MinusNeeded' => $deficitMegaCargoNeeded > 0 ? prettyNumber($deficitMegaCargoNeeded) : '&nbsp;',
         ]
     );
 
