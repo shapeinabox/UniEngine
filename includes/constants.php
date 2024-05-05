@@ -175,7 +175,7 @@ define('BASE_STORAGE_SIZE'                          , 1000000);
 define('BUILD_METAL'                                , 10000000);
 define('BUILD_CRISTAL'                              , 8000000);
 define('BUILD_DEUTERIUM'                            , 4000000);
-define('MAX_REFUND_VALUE'                           , 100000000);
+define('MAX_REFUND_VALUE'                           , 1000000000);
 
 // BlockingCookie name
 define('COOKIE_BLOCK'                               , 'UMB15HA87Y4M');
