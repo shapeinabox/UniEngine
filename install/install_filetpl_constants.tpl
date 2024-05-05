@@ -5,27 +5,27 @@ if(!defined('INSIDE'))
     die('Access Denied');
 }
 
-define('UNIENGINE_UNIID'                            , 'origin');
+define('UNIENGINE_UNIID'                            , '{UNIID}');
 
 define('LOGINPAGE_UNIVERSUMCODE'                    , 'uni1');
 define('LOGINPAGE_ALLOW_LOGINPHP'                   , true);
 
 // Main data - adminMail, gameURL
-define('ADMINEMAIL'                                 , 'shapeinabox@gmail.com');
+define('ADMINEMAIL'                                 , '{AdminEmail}');
 define('GAMEURL'                                    , 'http://'.$_SERVER['HTTP_HOST'].'/');
-define('GAMEURL_DOMAIN'                             , 'ogame.albertobonino.com');
-define('GAMEURL_STRICT'                             , 'http://ogame.albertobonino.com');
-define('GAMEURL_UNISTRICT'                          , 'http://origin.ogame.albertobonino.com');
-define('UNI_DEFAULT_LANG'                           , 'en');
+define('GAMEURL_DOMAIN'                             , '{Domain}');
+define('GAMEURL_STRICT'                             , 'http://{Domain}');
+define('GAMEURL_UNISTRICT'                          , 'http://{GenerateSubdomainLink}');
+define('UNI_DEFAULT_LANG'                           , '{UniDefaultLang}');
 
 // Am I playing or Beta? TRUE/FALSE (If TRUE - Everyone has ProAccount)
 define('BETA'                                       , FALSE);
 define('UNIENGINE_HASAPC'                           , function_exists('apc_fetch'));
 
 // Automation Tools
-define('AUTOTOOL_ZIPLOGS_PASSWORDHASH'              , 'd619d13c1956866035aa097d891357eb');
-define('AUTOTOOL_STATBUILDER_PASSWORDHASH'          , 'd619d13c1956866035aa097d891357eb');
-define('AUTOTOOL_GARBAGECOLLECTOR_PASSWORDHASH'     , 'd619d13c1956866035aa097d891357eb');
+define('AUTOTOOL_ZIPLOGS_PASSWORDHASH'              , '{AutoTool_ZipLog_Hash}');
+define('AUTOTOOL_STATBUILDER_PASSWORDHASH'          , '{AutoTool_StatBuilder_Hash}');
+define('AUTOTOOL_GARBAGECOLLECTOR_PASSWORDHASH'     , '{AutoTool_GC_Hash}');
 
 // Mailer Settings
 define('MAILER_SMTP_USE'                            , false);
@@ -34,8 +34,8 @@ define('MAILER_SMTP_PORT'                           , 0000);
 define('MAILER_SMTP_USER'                           , 'SMTPUSER');
 define('MAILER_SMTP_PASSWORD'                       , 'SMTPPASSWORD');
 
-define('MAILER_MSGFIELDS_FROM'                      , 'noreply@ogame.albertobonino.com');
-define('MAILER_MSGFIELDS_FROM_NAME'                 , 'Origin');
+define('MAILER_MSGFIELDS_FROM'                      , 'noreply@{Domain}');
+define('MAILER_MSGFIELDS_FROM_NAME'                 , '{GameName}');
 
 // --- Feature flags ---
 define('FEATURES__EXPEDITIONS__ISENABLED', true);
@@ -171,22 +171,22 @@ define('ALLYPACT_DEFENSIVE'                         , 3);
 define('ALLYPACT_MILITARY'                          , 4);
 
 // Base mining values and base storage size
-define('BASE_STORAGE_SIZE'                          , 500000);
-define('BUILD_METAL'                                , 1000000);
-define('BUILD_CRISTAL'                              , 8000000);
-define('BUILD_DEUTERIUM'                            , 4000000);
-define('MAX_REFUND_VALUE'                           , 100000000);
+define('BASE_STORAGE_SIZE'                          , 100000);
+define('BUILD_METAL'                                , 1000);
+define('BUILD_CRISTAL'                              , 1000);
+define('BUILD_DEUTERIUM'                            , 1000);
+define('MAX_REFUND_VALUE'                           , 10000000);
 
 // BlockingCookie name
 define('COOKIE_BLOCK'                               , 'UMB15HA87Y4M');
 define('COOKIE_BLOCK_VAL'                           , '58847718139');
 
 // Registry check Cookie
-define('REGISTER_REQUIRE_EMAILCONFIRM'              , false);
-define('REGISTER_RECAPTCHA_ENABLE'                  , false);
-define('REGISTER_RECAPTCHA_SERVERIP_AS_HOSTNAME'    , false);
-define('REGISTER_RECAPTCHA_PRIVATEKEY'              , '');
-define('REGISTER_RECAPTCHA_PUBLICKEY'               , '');
+define('REGISTER_REQUIRE_EMAILCONFIRM'              , {Reg_RequireEmailConfirm});
+define('REGISTER_RECAPTCHA_ENABLE'                  , {Reg_RecaptchaEnabled});
+define('REGISTER_RECAPTCHA_SERVERIP_AS_HOSTNAME'    , {Reg_Recaptcha_ServerIP_As_Hostname});
+define('REGISTER_RECAPTCHA_PRIVATEKEY'              , '{Reg_Recaptcha_Private}');
+define('REGISTER_RECAPTCHA_PUBLICKEY'               , '{Reg_Recaptcha_Public}');
 define('REGISTER_CHECK'                             , 'VBF0BU794ETH1');
 
 // Reffering System Setup
@@ -207,7 +207,7 @@ define('BATTLE_MAX_ROUNDS'                          , 7);
 define('COMBAT_RESOURCESTEAL_PERCENT'               , 50);
 
 // Constants required for Time Calculations
-define('SERVER_MAINOPEN_TSTAMP'                     , 1714931263);
+define('SERVER_MAINOPEN_TSTAMP'                     , {InsertServerMainOpenTime});
 
 define('TIME_ONLINE'                                , 900);
 define('TIME_HOUR'                                  , 3600);
@@ -229,7 +229,7 @@ define('REGEXP_ALLYTAG'                             , '/^[0-9a-zA-Z\ \-\_'.REGEX
 define('REGEXP_ALLYNAME_ABSOLUTE'                   , '/^[0-9a-zA-Z\ \-\_'.REGEXP_POLISHSIGNS.']{1,35}$/D');
 define('REGEXP_ALLYTAG_ABSOLUTE'                    , '/^[0-9a-zA-Z\ \-\_'.REGEXP_POLISHSIGNS.']{3,8}$/D');
 define('REGEXP_PLANETNAME_ABSOLUTE'                 , '/^[0-9a-zA-Z\ \-\_'.REGEXP_POLISHSIGNS.']{1,20}$/D');
-define('REGEXP_SANITIZELIKE_SEARCH'                 , '#(\%|\_)#si');
+define('REGEXP_SANITIZELIKE_SEARCH'                 , '#(\%|\_){1}#si');
 define('REGEXP_SANITIZELIKE_REPLACE'                , '\\\$1');
 define('REGEXP_EMAIL_STRICT'                        , '/^[^\W][a-zA-Z0-9_\-]+(\.[a-zA-Z0-9_\-]+)*\@[a-zA-Z0-9_\-]+(\.[a-zA-Z0-9_\-]+)*\.[a-zA-Z]{2,4}$/');
 define('REGEXP_EMAIL_SIGNS'                         , '/^[a-zA-Z0-9\.\_\@\-\+]$/');

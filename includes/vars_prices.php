@@ -613,7 +613,7 @@ if(defined('INSIDE'))
                 )
             ),
             'weapons' => array(1),
-            'capacity' => 125000
+            'capacity' => 500000
         ),
         218 => array
         (
