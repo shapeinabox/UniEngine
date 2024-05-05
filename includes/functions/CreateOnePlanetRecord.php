@@ -2,29 +2,21 @@
 
 function CalculateBasicResourceSet()
 {
-    if(SERVER_MAINOPEN_TSTAMP > 0)
-    {
-        $RegisterDays = floor((time() - SERVER_MAINOPEN_TSTAMP) / (24*60*60));
-    }
-    else
-    {
+    if (SERVER_MAINOPEN_TSTAMP > 0) {
+        $RegisterDays = floor((time() - SERVER_MAINOPEN_TSTAMP) / (24 * 60 * 60));
+    } else {
         $RegisterDays = 0;
     }
-    if($RegisterDays >= 1)
-    {
+    if ($RegisterDays >= 1) {
         $Calc['metal'] = round(1000 * pow($RegisterDays / 0.2, 2));
         $Calc['crystal'] = round($Calc['metal'] / 2);
         $Calc['deuterium'] = round($Calc['metal'] / 4);
-        foreach($Calc as &$Val)
-        {
-            if($Val > MAX_REFUND_VALUE)
-            {
+        foreach ($Calc as &$Val) {
+            if ($Val > MAX_REFUND_VALUE) {
                 $Val = MAX_REFUND_VALUE;
             }
         }
-    }
-    else
-    {
+    } else {
         $Calc['metal'] = BUILD_METAL;
         $Calc['crystal'] = BUILD_CRISTAL;
         $Calc['deuterium'] = BUILD_DEUTERIUM;
@@ -37,23 +29,20 @@ function PlanetSizeRandomiser($Position, $HomeWorld = false)
 {
     global $_GameConfig;
 
-    if(!$HomeWorld)
-    {
+    if (!$HomeWorld) {
         $ClassicBase = 150;
         $SettingSize = $_GameConfig['initial_fields'];
         $PlanetRatio = floor(($ClassicBase / $SettingSize) * 10000) / 100;
-        $RandomMin = array(90, 125, 125, 205, 205, 205, 205, 205, 225, 205, 165, 155, 145, 80, 125);
-        $RandomMax = array(91, 135, 135, 280, 280, 270, 220, 220, 230, 225, 180, 170, 200, 420, 190);
+        $RandomMin = array(240, 275, 275, 355, 355, 355, 355, 355, 375, 355, 315, 305, 295, 230, 275);
+        $RandomMax = array(241, 285, 285, 430, 430, 420, 370, 370, 380, 375, 330, 320, 350, 570, 340);
         $CalculMin = floor($RandomMin[$Position - 1] + ($RandomMin[$Position - 1] * $PlanetRatio) / 100);
         $CalculMax = floor($RandomMax[$Position - 1] + ($RandomMax[$Position - 1] * $PlanetRatio) / 100);
         $RandomSize = mt_rand($CalculMin, $CalculMax);
-        $MaxAddon = mt_rand(0, 110);
-        $MinAddon = mt_rand(0, 60);
+        $MaxAddon = mt_rand(0, 130);
+        $MinAddon = mt_rand(0, 80);
         $Addon = ($MaxAddon - $MinAddon);
         $PlanetFields = ($RandomSize + $Addon);
-    }
-    else
-    {
+    } else {
         $PlanetFields = $_GameConfig['initial_fields'];
     }
     $PlanetSize = ($PlanetFields ^ (14 / 1.5)) * 75;
@@ -68,35 +57,27 @@ function CreateOnePlanetRecord($Galaxy, $System, $Position, $PlanetOwnerID, $Pla
     global $_Lang, $_GameConfig;
 
     // First, check if there is no planet on that position
-    if($DontCheckExistence !== true)
-    {
+    if ($DontCheckExistence !== true) {
         $QrySelectPlanet = "SELECT `id` FROM {{table}} WHERE `galaxy` = '{$Galaxy}' AND `system` = '{$System}' AND `planet` = '{$Position}';";
         $PlanetExist = doquery($QrySelectPlanet, 'planets', true);
-    }
-    else
-    {
+    } else {
         $PlanetExist = false;
     }
 
     // If this position is free, let's make a new planet!
-    if(!$PlanetExist)
-    {
+    if (!$PlanetExist) {
         $planet = PlanetSizeRandomiser($Position, $HomeWorld);
-        $planet['diameter'] = ($planet['field_max'] ^ (14 / 1.5)) * 75 ;
-        if($HomeWorld)
-        {
+        $planet['diameter'] = ($planet['field_max'] ^ (14 / 1.5)) * 75;
+        if ($HomeWorld) {
             $Res = CalculateBasicResourceSet();
             $planet['metal'] = $Res['metal'];
             $planet['crystal'] = $Res['crystal'];
             $planet['deuterium'] = $Res['deuterium'];
-        }
-        else
-        {
+        } else {
             $planet['metal'] = BUILD_METAL;
             $planet['crystal'] = BUILD_CRISTAL;
             $planet['deuterium'] = BUILD_DEUTERIUM;
-            if($AdditionalResources !== false)
-            {
+            if ($AdditionalResources !== false) {
                 $planet['metal'] += $AdditionalResources['metal'];
                 $planet['crystal'] += $AdditionalResources['crystal'];
                 $planet['deuterium'] += $AdditionalResources['deuterium'];
@@ -109,38 +90,27 @@ function CreateOnePlanetRecord($Galaxy, $System, $Position, $PlanetOwnerID, $Pla
         $planet['crystal_max'] = BASE_STORAGE_SIZE;
         $planet['deuterium_max'] = BASE_STORAGE_SIZE;
 
-        if($Position == 1 || $Position == 2 || $Position == 3)
-        {
+        if ($Position == 1 || $Position == 2 || $Position == 3) {
             $PlanetType = array('trocken');
             $PlanetDesign = array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10');
             $planet['temp_min'] = rand(0, 100);
-        }
-        else if($Position == 4 || $Position == 5 || $Position == 6)
-        {
+        } else if ($Position == 4 || $Position == 5 || $Position == 6) {
             $PlanetType = array('dschjungel');
             $PlanetDesign = array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10');
             $planet['temp_min'] = rand(-25, 75);
-        }
-        else if($Position == 7 || $Position == 8 || $Position == 9)
-        {
+        } else if ($Position == 7 || $Position == 8 || $Position == 9) {
             $PlanetType = array('normaltemp');
             $PlanetDesign = array('01', '02', '03', '04', '05', '06', '07');
             $planet['temp_min'] = rand(-50, 50);
-        }
-        else if($Position == 10 || $Position == 11 || $Position == 12)
-        {
+        } else if ($Position == 10 || $Position == 11 || $Position == 12) {
             $PlanetType = array('wasser');
             $PlanetDesign = array('01', '02', '03', '04', '05', '06', '07', '08', '09');
             $planet['temp_min'] = rand(-75, 25);
-        }
-        else if($Position == 13 || $Position == 14 || $Position == 15)
-        {
+        } else if ($Position == 13 || $Position == 14 || $Position == 15) {
             $PlanetType = array('eis');
             $PlanetDesign = array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10');
             $planet['temp_min'] = rand(-100, 10);
-        }
-        else
-        {
+        } else {
             $PlanetType = array('dschjungel', 'gas', 'normaltemp', 'trocken', 'wasser', 'wuesten', 'eis');
             $PlanetDesign = array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '00',);
             $planet['temp_min'] = rand(-120, 0);
@@ -149,7 +119,7 @@ function CreateOnePlanetRecord($Galaxy, $System, $Position, $PlanetOwnerID, $Pla
         $PlanetClass = array('planet');
         $planet['temp_maxi'] = rand(30, 100);
         $planet['temp_max'] = $planet['temp_min'] + $planet['temp_maxi'];
-        $planet['image'] = $PlanetType[rand(0, count($PlanetType) -1)];
+        $planet['image'] = $PlanetType[rand(0, count($PlanetType) - 1)];
         $planet['image'] .= $PlanetClass[rand(0, count($PlanetClass) - 1)];
         $planet['image'] .= $PlanetDesign[rand(0, count($PlanetDesign) - 1)];
         $planet['name'] = ($PlanetName == '') ? $_Lang['sys_colo_defaultname'] : $PlanetName;
@@ -180,38 +150,28 @@ function CreateOnePlanetRecord($Galaxy, $System, $Position, $PlanetOwnerID, $Pla
 
         // Select CreatedPlanet ID
         $QrySelectPlanet = "SELECT `id` FROM {{table}} WHERE `galaxy` = '{$Galaxy}' AND `system` = '{$System}' AND `planet` = '{$Position}' AND `id_owner` = '{$PlanetOwnerID}';";
-        $GetPlanetID = doquery($QrySelectPlanet , 'planets', true);
+        $GetPlanetID = doquery($QrySelectPlanet, 'planets', true);
 
         // Select Galaxy, if there was a planet on that place already
         $QrySelectGalaxy = "SELECT * FROM {{table}} WHERE `galaxy` = '{$Galaxy}' AND `system` = '{$System}' AND `planet` = '{$Position}';";
         $GetGalaxyID = doquery($QrySelectGalaxy, 'galaxy', true);
 
-        if($GetGalaxyID['galaxy_id'] > 0)
-        {
+        if ($GetGalaxyID['galaxy_id'] > 0) {
             // Update Galaxy Record
             $QryUpdateGalaxy = "UPDATE {{table}} SET `id_planet` = {$GetPlanetID['id']} WHERE `galaxy_id` = {$GetGalaxyID['galaxy_id']};";
             doquery($QryUpdateGalaxy, 'galaxy');
-        }
-        else
-        {
+        } else {
             // Create new Galaxy Record
             $QryInsertGalaxy = "INSERT INTO {{table}} SET `galaxy` = '{$Galaxy}', `system` = '{$System}', `planet` = '{$Position}', `id_planet` = {$GetPlanetID['id']};";
             doquery($QryInsertGalaxy, 'galaxy');
         }
 
-        if($GetPlanetData)
-        {
+        if ($GetPlanetData) {
             return array('ID' => $GetPlanetID['id'], 'temp_max' => $planet['temp_max'], 'metal' => $planet['metal'], 'crystal' => $planet['crystal'], 'deuterium' => $planet['deuterium']);
-        }
-        else
-        {
+        } else {
             return $GetPlanetID['id'];
         }
-    }
-    else
-    {
+    } else {
         return false;
     }
 }
-
-?>
