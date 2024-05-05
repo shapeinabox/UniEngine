@@ -171,7 +171,7 @@ define('ALLYPACT_DEFENSIVE'                         , 3);
 define('ALLYPACT_MILITARY'                          , 4);
 
 // Base mining values and base storage size
-define('BASE_STORAGE_SIZE'                          , 500000);
+define('BASE_STORAGE_SIZE'                          , 1000000);
 define('BUILD_METAL'                                , 10000000);
 define('BUILD_CRISTAL'                              , 8000000);
 define('BUILD_DEUTERIUM'                            , 4000000);
