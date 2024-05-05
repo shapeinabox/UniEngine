@@ -402,7 +402,7 @@ if(!empty($_POST['mode']))
                                     }
                                     elseif($ItemID == 9)
                                     {
-                                        if($AdditionalPlanets < 3)
+                                        if($AdditionalPlanets < 0)
                                         {
                                             $QueryTable = 'users';
                                             $Query = "UPDATE {{table}} SET `additional_planets` = `additional_planets` + 1 WHERE `id` = {$_User['id']};";
