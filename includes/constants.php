@@ -147,14 +147,14 @@ define('PLANET_ABANDONTIME'                         , 0);
 define('MAX_PLAYER_PLANETS'                         , 10);
 
 // QueueLength - StructuresQueue
-define('MAX_BUILDING_QUEUE_SIZE'                    , 3);
-define('MAX_BUILDING_QUEUE_SIZE_PRO'                , 10);
+define('MAX_BUILDING_QUEUE_SIZE'                    , 10);
+define('MAX_BUILDING_QUEUE_SIZE_PRO'                , 20);
 // QueueLength - ShipyardQueue
 define('MAX_FLEET_OR_DEFS_PER_ROW'                  , 1000000);
 define('MAX_FLEET_OR_DEFS_PER_ROW_PRO'              , 1000000);
 // QueueLength - TechnologyQueue
-define('MAX_TECH_QUEUE_LENGTH'                      , 1);
-define('MAX_TECH_QUEUE_LENGTH_PRO'                  , 5);
+define('MAX_TECH_QUEUE_LENGTH'                      , 3);
+define('MAX_TECH_QUEUE_LENGTH_PRO'                  , 10);
 
 // Maximal Overflow of Storages (1.0 = 100%)
 define('MAX_OVERFLOW'                               , 1.0);
@@ -172,7 +172,7 @@ define('ALLYPACT_MILITARY'                          , 4);
 
 // Base mining values and base storage size
 define('BASE_STORAGE_SIZE'                          , 500000);
-define('BUILD_METAL'                                , 1000000);
+define('BUILD_METAL'                                , 10000000);
 define('BUILD_CRISTAL'                              , 8000000);
 define('BUILD_DEUTERIUM'                            , 4000000);
 define('MAX_REFUND_VALUE'                           , 100000000);

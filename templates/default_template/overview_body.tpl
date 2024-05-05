@@ -162,10 +162,10 @@ $(document).ready(function()
         </th>
     </tr>
     <tr style="visibility: none;"><td></td></tr>
+    <!-- <tr>
     <tr>
         <td colspan="3" class="c">{RefLinksHeader}</td>
     </tr>
-    <tr>
         <th colspan="3" class="pad5">
         <img src="generate_sig.php?uid={UserUID}" width="468" height="60"/><br />
         {SignatureInfo}
@@ -182,7 +182,7 @@ $(document).ready(function()
         <th colspan="2">
         <input type="text" id="rlink2" class="refLink" onclick="$('#rlink2').select();" value="{referralLink2}"/>
         </th>
-    </tr>
+    </tr> -->
     <tr class="inv"><td></td></tr>
     {Component_QuickTransport}
     <tr class="inv" {hide_other_planets}><td></td></tr>
