@@ -105,7 +105,7 @@
     </table>
     <table border="0" align="left" class="style">
         <tr style="height: 20px;" valign="left">
-            <th class="c" colspan="2">TOTALS</th>
+            <th class="c" colspan="3">TOTALS</th>
         </tr>
         <tr style="height: 20px;" valign="left">
             <th>&nbsp;</th>
