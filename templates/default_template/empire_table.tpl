@@ -108,6 +108,7 @@
             <th class="c" colspan="2">TOTALS</th>
         </tr>
         <tr style="height: 20px;" valign="left">
+            <th>&nbsp;</th>
             <th class="c">Amount</th>
             <th class="c">Daily production</th>
         </tr>
