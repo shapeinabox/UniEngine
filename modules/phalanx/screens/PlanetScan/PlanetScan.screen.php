@@ -15,7 +15,8 @@ use UniEngine\Engine\Modules\Flights;
  * @return Object $result
  * @return String $result['componentHTML']
  */
-function render($props) {
+function render($props)
+{
     global $_Lang;
 
     $input = &$props['input'];
@@ -28,7 +29,7 @@ function render($props) {
 
     $scanCost = PHALANX_DEUTERIUMCOST;
 
-    if (Phalanx\Utils\Helpers\canUserBypassChecks([ 'user' => &$currentUser ])) {
+    if (Phalanx\Utils\Helpers\canUserBypassChecks(['user' => &$currentUser])) {
         $scanCost = 0;
     }
 
@@ -44,6 +45,13 @@ function render($props) {
         'currentUser' => &$currentUser,
         'scanCost' => $scanCost,
     ]);
+
+    $tryScanPlanet['isSuccess'] = false;
+    $tryScanPlanet['error'] =
+        [
+            'code' => 'FEATURE_DISABLED',
+            'params' => [],
+        ];
 
     if (!$tryScanPlanet['isSuccess']) {
         $errorMessage = Phalanx\Utils\Errors\mapTryScanPlanetErrorToReadableMessage($tryScanPlanet['error']);
@@ -75,5 +83,3 @@ function render($props) {
 
     display($planetScanResult['componentHTML'], $_Lang['Page_Title'], false);
 }
-
-?>

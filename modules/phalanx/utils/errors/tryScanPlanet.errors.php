@@ -19,6 +19,7 @@ function mapTryScanPlanetErrorToReadableMessage($error) {
         'SCAN_TARGET_OUT_OF_RANGE_SYSTEM'   => $_Lang['PhalanxError_TargetOutOfRange'],
         'TARGET_EMPTY'                      => $_Lang['PhalanxError_CoordsEmpty'],
         'PHALANX_MOON_DESTROYED'            => $_Lang['PhalanxError_MoonDestroyed'],
+        'FEATURE_DISABLED'                  => $_Lang['PhalanxError_FeatureDisabled'],
         'NOT_ENOUGH_FUEL'                   => function ($params) use (&$_Lang) {
             return sprintf(
                 $_Lang['PhalanxError_NoEnoughFuel'],

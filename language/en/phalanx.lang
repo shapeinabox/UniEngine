@@ -45,6 +45,7 @@ $_Lang['PhalanxError_MoonDestroyed']    = 'Your moon has been destroyed!';
 $_Lang['PhalanxError_CoordsEmpty']      = 'There is no planet on given coordinates!';
 $_Lang['PhalanxError_NoPhalanxHere']    = 'Your moon does not have a Sensor Phalanx!';
 $_Lang['PhalanxError_ScanOnlyFromMoon'] = 'Sensor Phalanx can be used only from a moon!';
+$_Lang['PhalanxError_FeatureDisabled']  = 'The Phalanx feature has been disabled';
 
 $_Lang['PhalanxInfo_NoMovements_Text']  = 'No fleets\' movement detected...';
 $_Lang['PhalanxInfo_NoMovements']       = "<tr><th class=\"orange pad8\">{$_Lang['PhalanxInfo_NoMovements_Text']}</th></tr>";

@@ -46,6 +46,7 @@ $_Lang['PhalanxError_MoonDestroyed']    = 'Księżyc na którym się znajdujesz 
 $_Lang['PhalanxError_CoordsEmpty']      = 'Na tych Koordynatach nie ma żadnej Planety!';
 $_Lang['PhalanxError_NoPhalanxHere']    = 'Na tym Księżycu nie ma Falangi!';
 $_Lang['PhalanxError_ScanOnlyFromMoon'] = 'Skanowanie za pomocą Falangi można przeprowadzać tylko z Księżyca!';
+$_Lang['PhalanxError_FeatureDisabled']  = 'The Phalanx feature has been disabled';
 
 $_Lang['PhalanxInfo_NoMovements_Text']  = 'Nie wykryto żadnych ruchów flot...';
 $_Lang['PhalanxInfo_NoMovements']       = "<tr><th class=\"orange pad8\">{$_Lang['PhalanxInfo_NoMovements_Text']}</th></tr>";
