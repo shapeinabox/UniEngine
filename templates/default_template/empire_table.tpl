@@ -103,19 +103,27 @@
         </tr>
         {row_defense}
     </table>
-    <div class="d-flex flex-column">
-        <div>TOTALS</div>
-        <div>
-            <div>{sumMetal}</div>
-            <div>+{sumMetalProd}</div>
-        </div>
-        <div>
-            <div>{sumCrystal}</div>
-            <div>+{sumCrystalProd}</div>
-        </div>
-        <div>
-            <div>{sumDeuterium}</div>
-            <div>+{sumDeuteriumProd}</div>
-        </div>
-    </div>
+    <table>
+        <tr>
+            <th>TOTALS</th>
+        </tr>
+        <tr>
+            <td>
+                <div>{sumMetal}</div>
+                <div>+{sumMetalProd}</div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>{sumCrystal}</div>
+                <div>+{sumCrystalProd}</div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>{sumDeuterium}</div>
+                <div>+{sumDeuteriumProd}</div>
+            </td>
+        </tr>
+    </table>
 </div>
