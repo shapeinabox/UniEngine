@@ -14,7 +14,7 @@ function MissionCaseColonisation($FleetRow, &$_FleetCache)
     $Now = time();
 
     if ($FleetRow['calcType'] == 1) {
-        $AllowedTotalPlanetsWithAstrophysicTech = ceil($_User["tech_expedition"] / ASTRO_PHYSICS_STEPS) + 1;
+        $AllowedTotalPlanetsWithAstrophysicTech = ceil($_User["tech_expedition"] / $ASTRO_PHYSICS_STEPS) + 1;
 
         $Return['FleetArchive'][$FleetRow['fleet_id']]['Fleet_Calculated_Mission'] = true;
         $Return['FleetArchive'][$FleetRow['fleet_id']]['Fleet_Calculated_Mission_Time'] = $Now;
@@ -33,7 +33,7 @@ function MissionCaseColonisation($FleetRow, &$_FleetCache)
                     $Query_GetUserData .= "UNION ";
                     $Query_GetUserData .= "SELECT `additional_planets` AS `Data`, 2 AS `Type` FROM `{{prefix}}users` WHERE `id` = {$FleetRow['fleet_owner']}";
                 } else {
-                    $AllowedTotalPlanetsWithAstrophysicTech = ceil($_FleetCache['users'][$FleetRow['fleet_owner']]['tech_expedition'] / ASTRO_PHYSICS_STEPS) + 1;
+                    $AllowedTotalPlanetsWithAstrophysicTech = ceil($_FleetCache['users'][$FleetRow['fleet_owner']]['tech_expedition'] / $ASTRO_PHYSICS_STEPS) + 1;
                     $MaxPlanets = $AllowedTotalPlanetsWithAstrophysicTech + $_FleetCache['users'][$FleetRow['fleet_owner']]['additional_planets'];
                 }
             } else {
