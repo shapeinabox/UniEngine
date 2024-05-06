@@ -242,15 +242,15 @@ for ($j = 0; $j < 3; $j += 1) {
 
 // Add sums to parse array for use in template
 $parse['sumFields'] = $sumFields;
-$parse['sumMetal'] = $sumMetal;
-$parse['sumCrystal'] = $sumCrystal;
-$parse['sumDeuterium'] = $sumDeuterium;
-$parse['sumEnergy'] = $sumEnergy;
+$parse['sumMetal'] = prettyNumber($sumMetal);
+$parse['sumCrystal'] = prettyNumber($sumCrystal);
+$parse['sumDeuterium'] = prettyNumber($sumDeuterium);
+$parse['sumEnergy'] = prettyNumber($sumEnergy);
 
 // Add sums for production info to parse array for use in template
-$parse['sumMetalProd'] = $sumMetalProd;
-$parse['sumCrystalProd'] = $sumCrystalProd;
-$parse['sumDeuteriumProd'] = $sumDeuteriumProd;
+$parse['sumMetalProd'] = prettyNumber($sumMetalProd);
+$parse['sumCrystalProd'] = prettyNumber($sumCrystalProd);
+$parse['sumDeuteriumProd'] = prettyNumber($sumDeuteriumProd);
 
 display(parsetemplate(gettemplate('empire_table'), $parse), $_Lang['empire_vision'], false);
 
