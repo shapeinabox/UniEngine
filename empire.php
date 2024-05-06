@@ -252,6 +252,11 @@ $parse['sumMetalProd'] = prettyNumber($sumMetalProd);
 $parse['sumCrystalProd'] = prettyNumber($sumCrystalProd);
 $parse['sumDeuteriumProd'] = prettyNumber($sumDeuteriumProd);
 
+// Calculate daily production
+$parse['dailyMetalProd'] = prettyNumber($sumMetalProd * 24);
+$parse['dailyCrystalProd'] = prettyNumber($sumCrystalProd * 24);
+$parse['dailyDeuteriumProd'] = prettyNumber($sumDeuteriumProd * 24);
+
 display(parsetemplate(gettemplate('empire_table'), $parse), $_Lang['empire_vision'], false);
 
 ?>
