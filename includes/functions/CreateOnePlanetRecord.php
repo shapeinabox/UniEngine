@@ -8,7 +8,7 @@ function CalculateBasicResourceSet()
         $RegisterDays = 0;
     }
     if ($RegisterDays >= 1) {
-        $Calc['metal'] = round(10000000 * pow($RegisterDays / 0.1, 2));
+        $Calc['metal'] = round(10000000 * pow($RegisterDays / 0.1, 2))*2;
         $Calc['crystal'] = round($Calc['metal'] / 2);
         $Calc['deuterium'] = round($Calc['metal'] / 4);
         foreach ($Calc as &$Val) {
