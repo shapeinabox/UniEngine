@@ -3,19 +3,17 @@
 define('INSIDE', true);
 
 $_EnginePath = './';
-include($_EnginePath.'common.php');
+include($_EnginePath . 'common.php');
 
 loggedCheck();
 
 includeLang('empire');
 
-if(!isPro())
-{
+if (!isPro()) {
     message($_Lang['ThisPageOnlyForPro'], $_Lang['ProAccount']);
 }
 
-if(!isset($_GET['type']) || ($_GET['type'] != 1 && $_GET['type'] != 3))
-{
+if (!isset($_GET['type']) || ($_GET['type'] != 1 && $_GET['type'] != 3)) {
     $_GET['type'] = 1;
 }
 
@@ -24,19 +22,14 @@ $SQLResult_SelectedRows = doquery(
     'planets'
 );
 
-if($SQLResult_SelectedRows->num_rows == 0)
-{
+if ($SQLResult_SelectedRows->num_rows == 0) {
     $_GET['type'] = 1;
     $_Lang['HideMoons'] = ' style="display: none;"';
     $SelectedRows = doquery("SELECT * FROM {{table}} WHERE `id_owner` = {$_User['id']} AND `planet_type` = 1;", 'planets');
-}
-else
-{
-    if($_GET['type'] == 1)
-    {
+} else {
+    if ($_GET['type'] == 1) {
         $CheckMoons = doquery("SELECT COUNT(`id`) AS `count` FROM {{table}} WHERE `id_owner` = {$_User['id']} AND `planet_type` = 3;", 'planets', true);
-        if($CheckMoons['count'] <= 0)
-        {
+        if ($CheckMoons['count'] <= 0) {
             $_Lang['HideMoons'] = ' style="display: none;"';
         }
     }
@@ -45,8 +38,7 @@ else
 $parse = $_Lang;
 
 $planet = [];
-while($p = $SQLResult_SelectedRows->fetch_assoc())
-{
+while ($p = $SQLResult_SelectedRows->fetch_assoc()) {
     $planet[] = $p;
 }
 
@@ -71,35 +63,38 @@ $BasicIncome['crystal'] = $_GameConfig['crystal_basic_income'] * $_GameConfig['r
 $BasicIncome['deuterium'] = $_GameConfig['deuterium_basic_income'] * $_GameConfig['resource_multiplier'];
 
 $_Vars_ElementCategories['fleetNdef'] = array_merge($_Vars_ElementCategories['fleet'], $_Vars_ElementCategories['defense']);
-foreach($_Vars_ElementCategories['build'] as $ElementID)
-{
-    if(!in_array($ElementID, $_Vars_ElementCategories['buildOn'][(int) $_GET['type']]))
-    {
+foreach ($_Vars_ElementCategories['build'] as $ElementID) {
+    if (!in_array($ElementID, $_Vars_ElementCategories['buildOn'][(int)$_GET['type']])) {
         continue;
     }
     $_Vars_ElementCategories['allowedBuild'][] = $ElementID;
 }
 
-foreach($planet as $p)
-{
+// Initialize sum variables
+$sumFields = 0;
+$sumMetal = 0;
+$sumCrystal = 0;
+$sumDeuterium = 0;
+$sumEnergy = 0;
+
+// Initialize sum variables for production info
+$sumMetalProd = 0;
+$sumCrystalProd = 0;
+$sumDeuteriumProd = 0;
+
+foreach ($planet as $p) {
     $data['i'] = $Loop++;
 
     HandlePlanetUpdate($p, $UserCopy, $Now, true);
 
-    if($p['energy_max'] == 0 AND abs($p['energy_used']) > 0)
-    {
+    if ($p['energy_max'] == 0 and abs($p['energy_used']) > 0) {
         $production_level = 0;
-    }
-    else if($p['energy_max'] > 0 AND abs($p['energy_used']) > $p['energy_max'])
-    {
+    } else if ($p['energy_max'] > 0 and abs($p['energy_used']) > $p['energy_max']) {
         $production_level = floor(($p['energy_max'] * 100) / abs($p['energy_used']));
-    }
-    else
-    {
+    } else {
         $production_level = 100;
     }
-    if($production_level > 100)
-    {
+    if ($production_level > 100) {
         $production_level = 100;
     }
     $production_level = 0.01 * $production_level;
@@ -107,24 +102,17 @@ foreach($planet as $p)
     $StoreColor = array('metal' => '', 'crystal' => '', 'deuterium' => '');
     $AddSign = array('metal' => '', 'crystal' => '', 'deuterium' => '');
     $BaseProduct = array('metal' => 0, 'crystal' => 0, 'deuterium' => 0);
-    if($p['planet_type'] == 1)
-    {
+    if ($p['planet_type'] == 1) {
         $BaseProduct['metal'] = ($p['metal_perhour'] * $production_level) + $BasicIncome['metal'];
         $BaseProduct['crystal'] = ($p['crystal_perhour'] * $production_level) + $BasicIncome['crystal'];
         $BaseProduct['deuterium'] = ($p['deuterium_perhour'] * $production_level) + $BasicIncome['deuterium'];
-        foreach($BaseProduct as $Type => $Value)
-        {
-            if($Value > 0)
-            {
+        foreach ($BaseProduct as $Type => $Value) {
+            if ($Value > 0) {
                 $ProductColor[$Type] = 'lime';
                 $AddSign[$Type] = '+';
-            }
-            else if($Value == 0)
-            {
+            } else if ($Value == 0) {
                 $ProductColor[$Type] = 'orange';
-            }
-            else
-            {
+            } else {
                 $ProductColor[$Type] = 'red';
                 $AddSign[$Type] = '-';
                 $BaseProduct[$Type] *= -1;
@@ -133,34 +121,24 @@ foreach($planet as $p)
         $StoreColor['metal'] = ($p['metal'] >= ($p['metal_max'] * MAX_OVERFLOW) ? $TPL_Addon_Overflow : '');
         $StoreColor['crystal'] = ($p['crystal'] >= ($p['crystal_max'] * MAX_OVERFLOW) ? $TPL_Addon_Overflow : '');
         $StoreColor['deuterium'] = ($p['deuterium'] >= ($p['deuterium_max'] * MAX_OVERFLOW) ? $TPL_Addon_Overflow : '');
-    }
-    else
-    {
+    } else {
         $ProductColor['metal'] = 'orange';
         $ProductColor['crystal'] = 'orange';
         $ProductColor['deuterium'] = 'orange';
     }
 
     $EnergyTotal = $p['energy_max'] + $p['energy_used'];
-    if($EnergyTotal > 0)
-    {
+    if ($EnergyTotal > 0) {
         $EnergyColor = 'lime';
-    }
-    else if($EnergyTotal == 0)
-    {
+    } else if ($EnergyTotal == 0) {
         $EnergyColor = 'orange';
-    }
-    else
-    {
+    } else {
         $EnergyColor = 'red';
     }
 
-    if($p['id'] == $_User['current_planet'])
-    {
+    if ($p['id'] == $_User['current_planet']) {
         $data['AddCurrent'] = 'select';
-    }
-    else
-    {
+    } else {
         $data['AddCurrent'] = '';
     }
     $ElementTHStart = "<th class=\"addhover{$data['i']} pad2 fmin2 w75x {$data['AddCurrent']}\">";
@@ -208,52 +186,51 @@ foreach($planet as $p)
     (
         'img', 'name', 'coords', 'fields', 'metal', 'crystal', 'deuterium', 'energy'
     );
-    for($k = 0; $k < 8; $k += 1)
-    {
-        if(!isset($parse['row_'.$f[$k]]))
-        {
-            $parse['row_'.$f[$k]] = '';
+    for ($k = 0; $k < 8; $k += 1) {
+        if (!isset($parse['row_' . $f[$k]])) {
+            $parse['row_' . $f[$k]] = '';
         }
         $data['parsed'] = parsetemplate($TPL_Row_StdInfo[$f[$k]], $datat[$k]);
-        $parse['row_'.$f[$k]] .= parsetemplate($TPL_Row_PlanetCell, $data);
+        $parse['row_' . $f[$k]] .= parsetemplate($TPL_Row_PlanetCell, $data);
     }
 
-    foreach($_Vars_ElementCategories['allowedBuild'] as $ElementID)
-    {
-        if(!isset($r[$ElementID]))
-        {
+    foreach ($_Vars_ElementCategories['allowedBuild'] as $ElementID) {
+        if (!isset($r[$ElementID])) {
             $r[$ElementID] = '';
         }
-        $data['text'] = prettyNumber($p[$_Vars_GameElements[$ElementID]])." <span class=\"fr\"><a href=\"buildings.php?cp={$p['id']}&amp;re=0&amp;cmd=insert&amp;building={$ElementID}\" class=\"lime\">+</a></span>";
-        $r[$ElementID] .= $ElementTHStart.$data['text'].'</th>';
+        $data['text'] = prettyNumber($p[$_Vars_GameElements[$ElementID]]) . " <span class=\"fr\"><a href=\"buildings.php?cp={$p['id']}&amp;re=0&amp;cmd=insert&amp;building={$ElementID}\" class=\"lime\">+</a></span>";
+        $r[$ElementID] .= $ElementTHStart . $data['text'] . '</th>';
     }
-    foreach($_Vars_ElementCategories['fleetNdef'] as $ElementID)
-    {
-        if(!isset($r[$ElementID]))
-        {
+    foreach ($_Vars_ElementCategories['fleetNdef'] as $ElementID) {
+        if (!isset($r[$ElementID])) {
             $r[$ElementID] = '';
         }
-        if(in_array($ElementID, $_Vars_ElementCategories['fleet']))
-        {
+        if (in_array($ElementID, $_Vars_ElementCategories['fleet'])) {
             $restype = 'fleet';
-        }
-        else
-        {
+        } else {
             $restype = 'defense';
         }
-        $data['text'] = "<a href=\"buildings.php?mode={$restype}&cp={$p['id']}&amp;re=0\">".prettyNumber($p[$_Vars_GameElements[$ElementID]])."</a>";
-        $r[$ElementID] .= $ElementTHStart.$data['text'].'</th>';
+        $data['text'] = "<a href=\"buildings.php?mode={$restype}&cp={$p['id']}&amp;re=0\">" . prettyNumber($p[$_Vars_GameElements[$ElementID]]) . "</a>";
+        $r[$ElementID] .= $ElementTHStart . $data['text'] . '</th>';
     }
+
+    $sumFields += $p['field_current'];
+    $sumMetal += $p['metal'];
+    $sumCrystal += $p['crystal'];
+    $sumDeuterium += $p['deuterium'];
+    $sumEnergy += $EnergyTotal;
+
+    $sumMetalProd += $BaseProduct['metal'];
+    $sumCrystalProd += $BaseProduct['crystal'];
+    $sumDeuteriumProd += $BaseProduct['deuterium'];
+
 }
 
 $m = array('allowedBuild', 'fleet', 'defense');
 $n = array('row_buildings', 'row_ships', 'row_defense');
-for($j = 0; $j < 3; $j += 1)
-{
-    foreach($_Vars_ElementCategories[$m[$j]] as $i)
-    {
-        if(!isset($parse[$n[$j]]))
-        {
+for ($j = 0; $j < 3; $j += 1) {
+    foreach ($_Vars_ElementCategories[$m[$j]] as $i) {
+        if (!isset($parse[$n[$j]])) {
             $parse[$n[$j]] = '';
         }
         $data['ElementID'] = $i;
@@ -262,6 +239,18 @@ for($j = 0; $j < 3; $j += 1)
         $parse[$n[$j]] .= parsetemplate($TPL_Row, $data);
     }
 }
+
+// Add sums to parse array for use in template
+$parse['sumFields'] = $sumFields;
+$parse['sumMetal'] = $sumMetal;
+$parse['sumCrystal'] = $sumCrystal;
+$parse['sumDeuterium'] = $sumDeuterium;
+$parse['sumEnergy'] = $sumEnergy;
+
+// Add sums for production info to parse array for use in template
+$parse['sumMetalProd'] = $sumMetalProd;
+$parse['sumCrystalProd'] = $sumCrystalProd;
+$parse['sumDeuteriumProd'] = $sumDeuteriumProd;
 
 display(parsetemplate(gettemplate('empire_table'), $parse), $_Lang['empire_vision'], false);
 
