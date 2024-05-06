@@ -103,21 +103,28 @@
         </tr>
         {row_defense}
     </table>
-    <table border="0" style="min-width: 350px;" align="left">
+    <table border="0" align="left" class="style">
         <tr style="height: 20px;" valign="left">
-            <td class="c" colspan="2">TOTALS</td>
+            <th class="c" colspan="2">TOTALS</th>
+        </tr>
+        <tr style="height: 20px;" valign="left">
+            <th class="c">Amount</th>
+            <th class="c">Daily production</th>
         </tr>
         <tr>
             <th width="75" class="fmin">Metal</th>
-            <td>{sumMetal}<br>+{sumMetalProd}</td>
+            <th>{sumMetal}</th>
+            <th>+{dailyMetalProd}</th>
         </tr>
         <tr>
             <th width="75" class="fmin">Crystal</th>
-            <td>{sumCrystal}<br>+{sumCrystalProd}</td>
+            <th>{sumCrystal}</th>
+            <th>+{dailyCrystalProd}</th>
         </tr>
         <tr>
             <th width="75" class="fmin">Deuterium</th>
-            <td>{sumDeuterium}<br>+{sumDeuteriumProd}</td>
+            <th>{sumDeuterium}</th>
+            <th>+{dailyDeuteriumProd}</th>
         </tr>
     </table>
 </div>
