@@ -2,6 +2,27 @@
 
 use UniEngine\Engine\Modules\Flights;
 
+function calculateFleetValue($ships)
+{
+    global $_Vars_Prices;
+
+    $totalValue = 0;
+
+    foreach ($ships as $shipId => $shipsAmount) {
+        $shipData = $_Vars_Prices[$shipId];
+        if ($shipData === null) {
+            continue;
+        }
+        $metal = $shipData['metal'] ? $shipData['metal'] : 1;
+        $crystal = $shipData['crystal'] ? $shipData['crystal'] : 1;
+        $deuterium = $shipData['deuterium'] ? $shipData['deuterium'] : 1;
+        $capacity = $shipData['capacity'] ? $shipData['capacity'] : 1;
+        $totalValue += $shipsAmount * ((($metal + $crystal + $deuterium) / $capacity) * 0.1);
+    }
+
+    return $totalValue;
+}
+
 function MissionCaseExpedition($fleetRow, &$_FleetCache)
 {
     global $UserDev_Log, $_Lang, $UserStatsData, $_Vars_Prices;
@@ -91,7 +112,7 @@ function MissionCaseExpedition($fleetRow, &$_FleetCache)
         $UserStatsData[$thisFleetOwnerID]['other_expeditions_count'] += 1;
 
         $preExpeditionShips = String2Array($fleetRow['fleet_array']);
-        $shipsValue = Flights\Utils\Helpers\calculateFleetValue([
+        $shipsValue = calculateFleetValue([
             'ships' => $preExpeditionShips
         ]);
 
