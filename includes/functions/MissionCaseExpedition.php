@@ -91,7 +91,7 @@ function MissionCaseExpedition($fleetRow, &$_FleetCache)
         $UserStatsData[$thisFleetOwnerID]['other_expeditions_count'] += 1;
 
         $preExpeditionShips = String2Array($fleetRow['fleet_array']);
-        $shipsValue = Flights\Utils\Helpers\calculateShipsValue([
+        $shipsValue = Flights\Utils\Helpers\calculateFleetValue([
             'ships' => $preExpeditionShips
         ]);
 
