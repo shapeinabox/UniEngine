@@ -17,7 +17,11 @@ function calculateFleetValue($ships)
     $totalValue = 0;
 
     foreach ($ships as $shipId => $shipsAmount) {
-        $totalValue += $shipsAmount * ((($_Vars_Prices[$shipId]['metal'] + $_Vars_Prices[$shipId]['crystal'] + $_Vars_Prices[$shipId]['deuterium']) / $_Vars_Prices[$shipId]['capacity']) * 0.1);
+        $shipData = $_Vars_Prices[$shipId];
+        if ($shipData === null) {
+            continue;
+        }
+        $totalValue += $shipsAmount * ((($shipData['metal'] + $shipData['crystal'] + $shipData['deuterium']) / $shipData['capacity']) * 0.1);
     }
 
     return $totalValue;
