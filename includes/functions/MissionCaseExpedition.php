@@ -2,13 +2,14 @@
 
 use UniEngine\Engine\Modules\Flights;
 
-function MissionCaseExpedition($fleetRow, &$_FleetCache) {
-    global $UserDev_Log, $_Lang, $UserStatsData;
+function MissionCaseExpedition($fleetRow, &$_FleetCache)
+{
+    global $UserDev_Log, $_Lang, $UserStatsData, $_Vars_Prices;
 
     /**
      * @param array $params
-     * @param array $params['messageData']
-     * @param EnumValue $params['fleetTimeMoment']
+     * @param array $params ['messageData']
+     * @param EnumValue $params ['fleetTimeMoment']
      */
     $sendExpeditionMessage = function ($params) use ($fleetRow) {
         $CONST_MESSAGES_SENDERID = '003';
@@ -89,15 +90,19 @@ function MissionCaseExpedition($fleetRow, &$_FleetCache) {
         }
         $UserStatsData[$thisFleetOwnerID]['other_expeditions_count'] += 1;
 
-
+        $preExpeditionShips = String2Array($fleetRow['fleet_array']);
+        $shipsValue = Flights\Utils\Helpers\calculateShipsValue([
+            'ships' => $preExpeditionShips
+        ]);
 
         $expeditionEvent = Flights\Utils\Helpers\getRandomExpeditionEvent([]);
         $expeditionOutcome = Flights\Utils\Helpers\getExpeditionEventOutcome([
-            'event' => $expeditionEvent
+            'event' => $expeditionEvent,
+            'shipsValue' => $shipsValue
         ]);
         $expeditionFinalOutcome = $expeditionOutcome;
 
-        $preExpeditionShips = String2Array($fleetRow['fleet_array']);
+
         $postExpeditionShips = String2Array($fleetRow['fleet_array']);
 
         $gainedResources = [];
@@ -216,17 +221,17 @@ function MissionCaseExpedition($fleetRow, &$_FleetCache) {
                 $CachePointer['fleet_amount'] = $fleetUpdateEntry['fleet_amount'];
                 $CachePointer['fleet_mess'] = $fleetUpdateEntry['fleet_mess'];
                 $CachePointer['fleet_resource_metal'] = (
-                    isset($CachePointer['fleet_resource_metal']) ?
+                isset($CachePointer['fleet_resource_metal']) ?
                     $CachePointer['fleet_resource_metal'] + $fleetUpdateEntry['fleet_resource_metal'] :
                     $fleetUpdateEntry['fleet_resource_metal']
                 );
                 $CachePointer['fleet_resource_crystal'] = (
-                    isset($CachePointer['fleet_resource_crystal']) ?
+                isset($CachePointer['fleet_resource_crystal']) ?
                     $CachePointer['fleet_resource_crystal'] + $fleetUpdateEntry['fleet_resource_crystal'] :
                     $fleetUpdateEntry['fleet_resource_crystal']
                 );
                 $CachePointer['fleet_resource_deuterium'] = (
-                    isset($CachePointer['fleet_resource_deuterium']) ?
+                isset($CachePointer['fleet_resource_deuterium']) ?
                     $CachePointer['fleet_resource_deuterium'] + $fleetUpdateEntry['fleet_resource_deuterium'] :
                     $fleetUpdateEntry['fleet_resource_deuterium']
                 );
