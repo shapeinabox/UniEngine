@@ -55,7 +55,7 @@ function getExpeditionEventPlanetaryResourcesFoundOutcome($params)
     $shipsValue = $params['shipsValue'];
 
     // Random factor for resources found
-    $randomFactor = mt_rand(1, 2);
+    $randomFactor = mt_rand(0.05, 0.2);
 
     // Calculate the resources found
     $resourcesFound = [
