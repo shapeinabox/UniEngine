@@ -53,7 +53,7 @@ $Fleet['resources'] = [
     'crystal' => $_POST['resource2'],
     'deuterium' => $_POST['resource3'],
 ];
-$Fleet['ExpeTime'] = intval($_POST['expeditiontime']);
+$Fleet['ExpeTime'] = floatval($_POST['expeditiontime']);
 $Fleet['HoldTime'] = intval($_POST['holdingtime']);
 $Fleet['ACS_ID'] = isset($_POST['acs_id']) ? floor(floatval($_POST['acs_id'])) : 0;
 $Fleet['Mission'] = isset($_POST['mission']) ? intval($_POST['mission']) : 0;

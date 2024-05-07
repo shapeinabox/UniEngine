@@ -107,7 +107,7 @@ function getUserCustomFleetColorsStylesHTML(&$user) {
 //
 function _getFleetsGalaxyPositionHyperlinkHTML($fleetRow, $isStartLink, $options) {
     $isOpenedInPopup = $options['isOpenedInPopup'];
-    $linkClass = $options['linkClass'];
+    $linkClass = array_search('linkClass', $options) ? $options['linkClass'] : 'white';
 
     if (!$linkClass) {
         $linkClass = 'white';
