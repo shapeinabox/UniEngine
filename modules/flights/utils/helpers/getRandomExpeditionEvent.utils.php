@@ -59,9 +59,9 @@ function getExpeditionEventPlanetaryResourcesFoundOutcome($params)
 
     // Calculate the resources found
     $resourcesFound = [
-        'metal' => prettyNumber(floor(($baseResources['metal'] * $shipsValue * $randomFactor))),
-        'crystal' => prettyNumber(floor(($baseResources['crystal'] * $shipsValue * $randomFactor))),
-        'deuterium' => prettyNumber(floor(($baseResources['deuterium'] * $shipsValue * $randomFactor)))
+        'metal' => floor(($baseResources['metal'] * $shipsValue * $randomFactor)),
+        'crystal' => floor(($baseResources['crystal'] * $shipsValue * $randomFactor)),
+        'deuterium' => floor(($baseResources['deuterium'] * $shipsValue * $randomFactor))
     ];
 
     return [
