@@ -2,9 +2,10 @@
 
 use UniEngine\Engine\Modules\Flights;
 
-function calculateFleetValue($ships)
+function calculateFleetValue($parms)
 {
     global $_Vars_Prices;
+    $ships = $parms['ships'];
 
     $totalValue = 0;
 
