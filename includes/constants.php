@@ -148,7 +148,7 @@ define('MAX_PLAYER_PLANETS'                         , 10);
 
 // QueueLength - StructuresQueue
 define('MAX_BUILDING_QUEUE_SIZE'                    , 10);
-define('MAX_BUILDING_QUEUE_SIZE_PRO'                , 20);
+define('MAX_BUILDING_QUEUE_SIZE_PRO'                , 40);
 // QueueLength - ShipyardQueue
 define('MAX_FLEET_OR_DEFS_PER_ROW'                  , 1000000);
 define('MAX_FLEET_OR_DEFS_PER_ROW_PRO'              , 1000000);
