@@ -4,21 +4,34 @@ use UniEngine\Engine\Modules\Flights;
 
 function calculateFleetValue($parms)
 {
-    global $_Vars_Prices;
+    global $_Vars_Prices, $_Vars_CombatData, $_User;
     $ships = $parms['ships'];
+
+    $techShielding = $_User['tech_shielding'];
+    $techArmour = $_User['tech_armour'];
 
     $totalValue = 0;
 
+//    valore_flotta = hull + shield + speed (totale di tutte le navi)
+//   'shield'=> floor($_Vars_CombatData[$ShipID]['shield'] * $UserData['techval']['shield'] * $UserData['TotalShieldFactor']),
+//   'hull'=> floor((($_Vars_Prices[$ShipID]['metal'] + $_Vars_Prices[$ShipID]['crystal']) / 10) * $UserData['techval']['def'])
     foreach ($ships as $shipId => $shipsAmount) {
+
         $shipData = $_Vars_Prices[$shipId];
+        $shipCombatData = $_Vars_CombatData[$shipId];
         if ($shipData === null) {
             continue;
         }
         $metal = $shipData['metal'] ? $shipData['metal'] : 1;
         $crystal = $shipData['crystal'] ? $shipData['crystal'] : 1;
-        $deuterium = $shipData['deuterium'] ? $shipData['deuterium'] : 1;
-        $capacity = $shipData['capacity'] ? $shipData['capacity'] : 1;
-        $totalValue += $shipsAmount * ((($metal + $crystal + $deuterium) / $capacity) * 0.1);
+
+        $hull = floor((($metal + $crystal) / 10) * $techArmour);
+        $shield = floor($shipCombatData['shield'] * $techShielding);
+
+        $totalValue += $shipsAmount * ($hull + $shield + $shipCombatData['speed']);
+
+//        $capacity = $shipData['capacity'] ? $shipData['capacity'] : 1;
+//        $totalValue += $shipsAmount * ((($metal + $crystal + $deuterium) / $capacity) * 0.1);
     }
 
     return $totalValue;
