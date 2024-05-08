@@ -51,21 +51,27 @@ function getExpeditionEventPlanetaryResourcesFoundOutcome($params)
 {
     // Base amount of resources
     $baseResources = [
-        'metal' => 30000,
-        'crystal' => 20000,
-        'deuterium' => 10000
+        'metal' => 60000,
+        'crystal' => 30000,
+        'deuterium' => 15000
     ];
 
     // Total value of ships in the expedition
     $shipsValue = $params['shipsValue'];
+    $expeditionHours = $params['$expeditionHours'] ?: 1;
 
+    $resourcesFound = [
+        'metal' => floor(($baseResources['metal'] * getRandomFactor() * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55)))) * $expeditionHours,
+        'crystal' => floor(($baseResources['crystal'] * getRandomFactor() * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55)))) * $expeditionHours,
+        'deuterium' => floor(($baseResources['deuterium'] * getRandomFactor() * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55)))) * $expeditionHours
+    ];
 
     // Calculate the resources found
-    $resourcesFound = [
-        'metal' => floor(($baseResources['metal'] * $shipsValue * getRandomFactor())),
-        'crystal' => floor(($baseResources['crystal'] * $shipsValue * getRandomFactor())),
-        'deuterium' => floor(($baseResources['deuterium'] * $shipsValue * getRandomFactor()))
-    ];
+//    $resourcesFound = [
+//        'metal' => floor(($baseResources['metal'] * $shipsValue * getRandomFactor())),
+//        'crystal' => floor(($baseResources['crystal'] * $shipsValue * getRandomFactor())),
+//        'deuterium' => floor(($baseResources['deuterium'] * $shipsValue * getRandomFactor()))
+//    ];
 
     return [
         'gains' => [

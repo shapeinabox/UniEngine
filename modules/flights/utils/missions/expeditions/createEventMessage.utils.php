@@ -37,9 +37,9 @@ function _createPlanetaryResourcesFoundEventMessage($params) {
     return [
         'msg_id' => '120',
         'args' => [
-            $gainedResources['metal'],
-            $gainedResources['crystal'],
-            $gainedResources['deuterium'],
+            prettyNumber($gainedResources['metal']),
+            prettyNumber($gainedResources['crystal']),
+            prettyNumber($gainedResources['deuterium']),
         ],
     ];
 }
