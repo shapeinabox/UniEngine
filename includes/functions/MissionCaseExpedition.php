@@ -25,8 +25,8 @@ function calculateFleetValue($parms)
         $metal = $shipData['metal'] ? $shipData['metal'] : 1;
         $crystal = $shipData['crystal'] ? $shipData['crystal'] : 1;
 
-        $hull = floor((($metal + $crystal) / 10) * $techArmour);
-        $shield = floor($shipCombatData['shield'] * $techShielding);
+        $hull = floor((($metal + $crystal) / 10) * ($techArmour / 10));
+        $shield = floor($shipCombatData['shield'] * ($techShielding / 10));
 
         $totalValue += $shipsAmount * ($hull + $shield + $shipCombatData['speed']);
 
@@ -133,7 +133,8 @@ function MissionCaseExpedition($fleetRow, &$_FleetCache)
         $expeditionEvent = Flights\Utils\Helpers\getRandomExpeditionEvent([]);
         $expeditionOutcome = Flights\Utils\Helpers\getExpeditionEventOutcome([
             'event' => $expeditionEvent,
-            'shipsValue' => $shipsValue
+            'shipsValue' => $shipsValue,
+            '$expeditionHours' => floor(($fleetRow['fleet_end_stay'] - $fleetRow['fleet_start_time']) / TIME_HOUR),
         ]);
         $expeditionFinalOutcome = $expeditionOutcome;
 

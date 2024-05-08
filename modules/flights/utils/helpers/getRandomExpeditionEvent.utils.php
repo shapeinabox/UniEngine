@@ -58,13 +58,12 @@ function getExpeditionEventPlanetaryResourcesFoundOutcome($params)
 
     // Total value of ships in the expedition
     $shipsValue = $params['shipsValue'];
-
-//    formula risorse = coeff. x base risorsa x log(valore_flotta,1.55)*1.1^log(valore_flotta,1.55)
+    $expeditionHours = $params['$expeditionHours'] ?: 1;
 
     $resourcesFound = [
-        'metal' => floor(($baseResources['metal'] * $shipsValue * getRandomFactor() * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55)))),
-        'crystal' => floor(($baseResources['crystal'] * $shipsValue * getRandomFactor() * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55)))),
-        'deuterium' => floor(($baseResources['deuterium'] * $shipsValue * getRandomFactor() * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55))))
+        'metal' => floor(($baseResources['metal'] * getRandomFactor() * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55)))) * $expeditionHours,
+        'crystal' => floor(($baseResources['crystal'] * getRandomFactor() * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55)))) * $expeditionHours,
+        'deuterium' => floor(($baseResources['deuterium'] * getRandomFactor() * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55)))) * $expeditionHours
     ];
 
     // Calculate the resources found
