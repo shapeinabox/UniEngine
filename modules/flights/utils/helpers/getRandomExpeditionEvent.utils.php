@@ -16,7 +16,7 @@ function getRandomExpeditionEvent($params)
     // TODO: Add more events
     $rollValue = mt_rand(0, 99);
 
-    $expeditionHours = $params['$expeditionHours'] ?: 1;
+    $expeditionHours = $params['expeditionHours'] ?: 1;
 
     $maxNothingHappenedValue = 30;
     if ($expeditionHours == 2) {
@@ -67,7 +67,7 @@ function getExpeditionEventPlanetaryResourcesFoundOutcome($params)
     ];
 
     $shipsValue = $params['shipsValue'];
-    $expeditionHours = $params['$expeditionHours'] ?: 1;
+    $expeditionHours = $params['expeditionHours'] ?: 1;
 
     $minFactor = 0;
     $maxFactor = 4;
