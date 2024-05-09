@@ -12,19 +12,29 @@ function calculateFleetValue($parms)
 
     $totalValue = 0;
 
+
     foreach ($ships as $shipId => $shipsAmount) {
         $shipData = $_Vars_Prices[$shipId];
+        $shipEngine = $shipData['engine'];
         $shipCombatData = $_Vars_CombatData[$shipId];
+
         if ($shipData === null) {
             continue;
         }
         $metal = $shipData['metal'] ?: 0;
         $crystal = $shipData['crystal'] ?: 0;
 
-        $hull = floor((($metal + $crystal) / 10) * ($techArmour / 10));
-        $shield = floor($shipCombatData['shield'] * ($techShielding / 10));
+        // 4 * 15 + 15
+        $baseHull = $metal + $crystal;
+        $hull = floor((($baseHull / 10) * ($techArmour)) + $baseHull);
+        $shield = floor((($shipCombatData['shield'] / 10) * ($techShielding)) + ($techShielding));
+        $speed = $shipEngine[0]['speed'] ?: 1;
+        $singleShipValue = ($hull + $shield + $speed);
+        $totalShipsValue = $singleShipValue * $shipsAmount;
 
-        $totalValue += $shipsAmount * ($hull + $shield + $shipCombatData['speed']);
+//        trigger_error('calculateFleetValue', E_USER_ERROR);
+
+        $totalValue += $totalShipsValue;
     }
 
     return $totalValue;
