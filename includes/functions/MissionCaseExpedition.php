@@ -127,7 +127,7 @@ function MissionCaseExpedition($fleetRow, &$_FleetCache)
         $expeditionOutcome = Flights\Utils\Helpers\getExpeditionEventOutcome([
             'event' => $expeditionEvent,
             'shipsValue' => $shipsValue,
-            '$expeditionHours' => floor(($fleetRow['fleet_end_stay'] - $fleetRow['fleet_start_time']) / TIME_HOUR),
+            'expeditionHours' => floor(($fleetRow['fleet_end_stay'] - $fleetRow['fleet_start_time']) / TIME_HOUR),
         ]);
         $expeditionFinalOutcome = $expeditionOutcome;
 
