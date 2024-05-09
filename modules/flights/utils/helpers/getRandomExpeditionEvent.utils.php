@@ -16,10 +16,21 @@ function getRandomExpeditionEvent($params)
     // TODO: Add more events
     $rollValue = mt_rand(0, 99);
 
-    if ($rollValue >= 0 && $rollValue < 30) {
+    $expeditionHours = $params['$expeditionHours'] ?: 1;
+
+    $maxNothingHappenedValue = 30;
+    if ($expeditionHours == 2) {
+        $maxNothingHappenedValue = 10;
+    } else if ($expeditionHours == 3) {
+        $maxNothingHappenedValue = 5;
+    } else if ($expeditionHours >= 4) {
+        $maxNothingHappenedValue = 1;
+    }
+
+    if ($rollValue >= 0 && $rollValue < $maxNothingHappenedValue) {
         return ExpeditionEvent::NothingHappened;
     }
-    if ($rollValue >= 30 && $rollValue < 100) {
+    if ($rollValue >= $maxNothingHappenedValue && $rollValue < 100) {
         return ExpeditionEvent::PlanetaryResourcesFound;
     }
 }
@@ -39,9 +50,9 @@ function getExpeditionEventOutcome($params)
     return [];
 }
 
-function getRandomFactor()
+function getRandomFactor($min, $max)
 {
-    return mt_rand(0, 4) / 10;
+    return mt_rand($min, $max) / 10;
 }
 
 /**
@@ -49,29 +60,34 @@ function getRandomFactor()
  */
 function getExpeditionEventPlanetaryResourcesFoundOutcome($params)
 {
-    // Base amount of resources
     $baseResources = [
         'metal' => 60000,
         'crystal' => 30000,
         'deuterium' => 15000
     ];
 
-    // Total value of ships in the expedition
     $shipsValue = $params['shipsValue'];
     $expeditionHours = $params['$expeditionHours'] ?: 1;
 
-    $resourcesFound = [
-        'metal' => floor(($baseResources['metal'] * getRandomFactor() * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55)))) * $expeditionHours,
-        'crystal' => floor(($baseResources['crystal'] * getRandomFactor() * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55)))) * $expeditionHours,
-        'deuterium' => floor(($baseResources['deuterium'] * getRandomFactor() * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55)))) * $expeditionHours
-    ];
+    $minFactor = 0;
+    $maxFactor = 4;
 
-    // Calculate the resources found
-//    $resourcesFound = [
-//        'metal' => floor(($baseResources['metal'] * $shipsValue * getRandomFactor())),
-//        'crystal' => floor(($baseResources['crystal'] * $shipsValue * getRandomFactor())),
-//        'deuterium' => floor(($baseResources['deuterium'] * $shipsValue * getRandomFactor()))
-//    ];
+    if ($expeditionHours == 2) {
+        $minFactor = 1;
+        $maxFactor = 5;
+    } else if ($expeditionHours == 3) {
+        $minFactor = 2;
+        $maxFactor = 6;
+    } else if ($expeditionHours >= 4) {
+        $minFactor = 3;
+        $maxFactor = 7;
+    }
+
+    $resourcesFound = [
+        'metal' => floor(($baseResources['metal'] * getRandomFactor($minFactor, $maxFactor) * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55)))) * $expeditionHours,
+        'crystal' => floor(($baseResources['crystal'] * getRandomFactor($minFactor, $maxFactor) * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55)))) * $expeditionHours,
+        'deuterium' => floor(($baseResources['deuterium'] * getRandomFactor($minFactor, $maxFactor) * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55)))) * $expeditionHours
+    ];
 
     return [
         'gains' => [
