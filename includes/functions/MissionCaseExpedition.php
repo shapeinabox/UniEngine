@@ -12,26 +12,19 @@ function calculateFleetValue($parms)
 
     $totalValue = 0;
 
-//    valore_flotta = hull + shield + speed (totale di tutte le navi)
-//   'shield'=> floor($_Vars_CombatData[$ShipID]['shield'] * $UserData['techval']['shield'] * $UserData['TotalShieldFactor']),
-//   'hull'=> floor((($_Vars_Prices[$ShipID]['metal'] + $_Vars_Prices[$ShipID]['crystal']) / 10) * $UserData['techval']['def'])
     foreach ($ships as $shipId => $shipsAmount) {
-
         $shipData = $_Vars_Prices[$shipId];
         $shipCombatData = $_Vars_CombatData[$shipId];
         if ($shipData === null) {
             continue;
         }
-        $metal = $shipData['metal'] ? $shipData['metal'] : 1;
-        $crystal = $shipData['crystal'] ? $shipData['crystal'] : 1;
+        $metal = $shipData['metal'] ?: 0;
+        $crystal = $shipData['crystal'] ?: 0;
 
         $hull = floor((($metal + $crystal) / 10) * ($techArmour / 10));
         $shield = floor($shipCombatData['shield'] * ($techShielding / 10));
 
         $totalValue += $shipsAmount * ($hull + $shield + $shipCombatData['speed']);
-
-//        $capacity = $shipData['capacity'] ? $shipData['capacity'] : 1;
-//        $totalValue += $shipsAmount * ((($metal + $crystal + $deuterium) / $capacity) * 0.1);
     }
 
     return $totalValue;
