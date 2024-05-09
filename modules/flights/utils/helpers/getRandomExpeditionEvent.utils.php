@@ -73,20 +73,29 @@ function getExpeditionEventPlanetaryResourcesFoundOutcome($params)
     $maxFactor = 4;
 
     if ($expeditionHours == 2) {
-        $minFactor = 1;
         $maxFactor = 5;
     } else if ($expeditionHours == 3) {
-        $minFactor = 2;
         $maxFactor = 6;
-    } else if ($expeditionHours >= 4) {
-        $minFactor = 3;
+    } else if ($expeditionHours == 4) {
         $maxFactor = 7;
+    } else if ($expeditionHours >= 5 && $expeditionHours < 8) {
+        $minFactor = 1;
+        $maxFactor = 7;
+    } else if ($expeditionHours >= 8) {
+        $minFactor = 1;
+        $maxFactor = 9;
     }
 
+//    echo "Ships value: $shipsValue\n";
+//    echo "Expedition hours: $expeditionHours\n";
+//    echo "Min factor: $minFactor\n";
+//    echo "Max factor: $maxFactor\n";
+//    trigger_error('calculateFleetValue', E_USER_ERROR);
+
     $resourcesFound = [
-        'metal' => floor(($baseResources['metal'] * getRandomFactor($minFactor, $maxFactor) * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55)))) * $expeditionHours,
-        'crystal' => floor(($baseResources['crystal'] * getRandomFactor($minFactor, $maxFactor) * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55)))) * $expeditionHours,
-        'deuterium' => floor(($baseResources['deuterium'] * getRandomFactor($minFactor, $maxFactor) * log($shipsValue, 1.55) * pow(1.1, log($shipsValue, 1.55)))) * $expeditionHours
+        'metal' => floor(($baseResources['metal'] * getRandomFactor($minFactor, $maxFactor) * log($shipsValue / 15, 1.55) * pow(1.1, log($shipsValue / 15, 1.55)))) * $expeditionHours,
+        'crystal' => floor(($baseResources['crystal'] * getRandomFactor($minFactor, $maxFactor) * log($shipsValue / 15, 1.55) * pow(1.1, log($shipsValue / 15, 1.55)))) * $expeditionHours,
+        'deuterium' => floor(($baseResources['deuterium'] * getRandomFactor($minFactor, $maxFactor) * log($shipsValue / 15, 1.55) * pow(1.1, log($shipsValue / 15, 1.55)))) * $expeditionHours
     ];
 
     return [
