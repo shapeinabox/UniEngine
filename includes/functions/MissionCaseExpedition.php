@@ -12,6 +12,10 @@ function calculateFleetValue($parms)
 
     $totalValue = 0;
 
+    // We need to filter out the ship with id 210 from the array, without altering the original array
+    $ships = array_filter($ships, function ($shipId) {
+        return $shipId != 210;
+    }, ARRAY_FILTER_USE_KEY);
 
     foreach ($ships as $shipId => $shipsAmount) {
         $shipData = $_Vars_Prices[$shipId];
