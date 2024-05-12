@@ -30,7 +30,13 @@ $_Lang['Chrono_PrettyTime'] = [
         },
         'seconds' => function ($seconds) {
             return "{$seconds}s";
-        }
+        },
+                 'milliseconds' => function ($seconds) {
+                     return "{$milliseconds}ms";
+                 },
+                 'microseconds' => function ($seconds) {
+                     return "{microseconds}ms";
+                 }
     ],
     'chronoFormat' => [
         'daysFull' => function ($days) {
