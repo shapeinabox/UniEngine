@@ -226,6 +226,21 @@ function pretty_time($Seconds, $ChronoType = false, $Format = false) {
 
     $timePieces = [];
 
+    $Microseconds = floor(($Seconds - floor($Seconds)) * 1000000);
+    $Milliseconds = floor($Microseconds / 1000);
+    $Microseconds -= $Milliseconds * 1000;
+    $Nanoseconds = $Nanoseconds = $Microseconds > 1000 ? floor($Microseconds * 1000) : 0;
+    $Microseconds -= floor($Nanoseconds / 1000);
+
+//    echo $Seconds;
+//    echo "\n";
+//    echo $Milliseconds;
+//    echo "\n";
+//    echo $Microseconds;
+//    echo "\n";
+//    echo $Nanoseconds;
+//    echo "\n";
+
     $Seconds = floor($Seconds);
     $Days = floor($Seconds / TIME_DAY);
     $Seconds -= $Days * TIME_DAY;
@@ -234,33 +249,50 @@ function pretty_time($Seconds, $ChronoType = false, $Format = false) {
     $Minutes = floor($Seconds / 60);
     $Seconds -= $Minutes * 60;
 
-    $hoursString = str_pad((string) $Hours, 2, '0', STR_PAD_LEFT);
-    $minutesString = str_pad((string) $Minutes, 2, '0', STR_PAD_LEFT);
-    $secondsString = str_pad((string) $Seconds, 2, '0', STR_PAD_LEFT);
+    $hoursString = str_pad((string)$Hours, 2, '0', STR_PAD_LEFT);
+    $minutesString = str_pad((string)$Minutes, 2, '0', STR_PAD_LEFT);
+    $secondsString = str_pad((string)$Seconds, 2, '0', STR_PAD_LEFT);
+    $microsecondsString = str_pad((string)$Microseconds, 3, '0', STR_PAD_LEFT);
+    $millisecondsString = str_pad((string)$Milliseconds, 3, '0', STR_PAD_LEFT);
+    $nanosecondsString = str_pad((string)$Nanoseconds, 3, '0', STR_PAD_LEFT);
 
     if ($ChronoType === false) {
         if (!$Format) {
-            $Format = 'dhms';
+            $Format = 'dhmsuin';
         }
 
         $isPieceAllowed = [
             'days' => (strstr($Format, 'd') !== false),
             'hours' => (strstr($Format, 'h') !== false),
             'minutes' => (strstr($Format, 'm') !== false),
-            'seconds' => (strstr($Format, 's') !== false)
+            'seconds' => (strstr($Format, 's') !== false),
+            'microseconds' => (strstr($Format, 'u') !== false),
+            'milliseconds' => (strstr($Format, 'i') !== false),
         ];
 
         if ($Days > 0 && $isPieceAllowed['days']) {
             $timePieces[] = $_Lang['Chrono_PrettyTime']['longFormat']['days']($Days);
+//            $timePieces[] = "{$Days}d";
         }
         if ($isPieceAllowed['hours']) {
             $timePieces[] = $_Lang['Chrono_PrettyTime']['longFormat']['hours']($hoursString);
+//            $timePieces[] = "{$hoursString}h";
         }
         if ($isPieceAllowed['minutes']) {
             $timePieces[] = $_Lang['Chrono_PrettyTime']['longFormat']['minutes']($minutesString);
+//            $timePieces[] = "{$minutesString}m";
         }
         if ($isPieceAllowed['seconds']) {
             $timePieces[] = $_Lang['Chrono_PrettyTime']['longFormat']['seconds']($secondsString);
+//            $timePieces[] = "{$secondsString}s";
+        }
+        if ($isPieceAllowed['milliseconds']) {
+            $timePieces[] = $_Lang['Chrono_PrettyTime']['longFormat']['milliseconds']($millisecondsString);
+//            $timePieces[] = "{$millisecondsString}ms";
+        }
+        if ($isPieceAllowed['microseconds']) {
+            $timePieces[] = $_Lang['Chrono_PrettyTime']['longFormat']['microseconds']($microsecondsString);
+//            $timePieces[] = "{$microsecondsString}µs";
         }
 
         return implode(' ', $timePieces);
@@ -278,16 +310,18 @@ function pretty_time($Seconds, $ChronoType = false, $Format = false) {
 
         if ($isPieceAllowed['daysFull']) {
             $timePieces[] = $_Lang['Chrono_PrettyTime']['chronoFormat']['daysFull']($Days);
+//            $timePieces[] = "{$Days} days";
         } else if ($isPieceAllowed['daysShort']) {
             $timePieces[] = $_Lang['Chrono_PrettyTime']['chronoFormat']['daysShort']($Days);
+//            $timePieces[] = "{$Days}d";
         } else {
             $Hours += $Days * 24;
 
-            $hoursString = str_pad((string) $Hours, 2, '0', STR_PAD_LEFT);
+            $hoursString = str_pad((string)$Hours, 2, '0', STR_PAD_LEFT);
         }
     }
 
-    $timePieces[] = "{$hoursString}:{$minutesString}:{$secondsString}";
+    $timePieces[] = "{$hoursString}:{$minutesString}:{$secondsString}.{$microsecondsString}.{$millisecondsString}.{$nanosecondsString}";
 
     return implode(' ', $timePieces);
 }
