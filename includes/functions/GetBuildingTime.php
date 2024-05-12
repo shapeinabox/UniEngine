@@ -26,7 +26,7 @@ function GetBuildingTime($TheUser, $ThePlanet, $ElementID)
         $cost_crystal = floor($_Vars_Prices[$ElementID]['crystal'] * pow($_Vars_Prices[$ElementID]['factor'], $level));
         $timeBase = (isset($_Vars_BuildingsFixedBuildTime[$ElementID])) ? $_Vars_BuildingsFixedBuildTime[$ElementID] : (($cost_crystal) + ($cost_metal));
         $time = ($timeBase / $_GameConfig['game_speed']) * (1 / ($ThePlanet[$_Vars_GameElements['14']] + 1)) * pow(0.5, $ThePlanet[$_Vars_GameElements['15']]);
-        $time = floor($time * 60 * 60);
+        $time = $time * 60 * 60;
     }
     else if(in_array($ElementID, $_Vars_ElementCategories['tech']))
     {
@@ -60,19 +60,19 @@ function GetBuildingTime($TheUser, $ThePlanet, $ElementID)
         }
         $timeBase = $cost_crystal + $cost_metal;
         $time = ($timeBase / $_GameConfig['game_speed']) / (($lablevel + 1) * 2);
-        $time = floor($time * 60 * 60 * (($TheUser['technocrat_time'] > time()) ? 0.8 : 1));
+        $time = $time * 60 * 60 * (($TheUser['technocrat_time'] > time()) ? 0.8 : 1);
     }
     else if(in_array($ElementID, $_Vars_ElementCategories['defense']))
     {
         $timeBase = $_Vars_Prices[$ElementID]['metal'] + $_Vars_Prices[$ElementID]['crystal'];
         $time = ($timeBase / $_GameConfig['game_speed']) * (1 / ($ThePlanet[$_Vars_GameElements['21']] + 1)) * pow(1 / 2, $ThePlanet[$_Vars_GameElements['15']]);
-        $time = floor($time * 60 * 60);
+        $time = $time * 60 * 60;
     }
     else if(in_array($ElementID, $_Vars_ElementCategories['fleet']))
     {
         $timeBase = $_Vars_Prices[$ElementID]['metal'] + $_Vars_Prices[$ElementID]['crystal'];
         $time = ($timeBase / $_GameConfig['game_speed']) * (1 / ($ThePlanet[$_Vars_GameElements['21']] + 1)) * pow(1 / 2, $ThePlanet[$_Vars_GameElements['15']]);
-        $time = floor($time * 60 * 60);
+        $time = $time * 60 * 60;
     }
 
     if($time < 0)
