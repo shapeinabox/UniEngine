@@ -466,7 +466,7 @@ if(defined('INSIDE'))
                 )
             ),
             'weapons' => array(1),
-            'capacity' => 20000
+            'capacity' => 150000
         ),
         210 => array
         (
@@ -486,7 +486,7 @@ if(defined('INSIDE'))
                 )
             ),
             'capacity' => 5,
-            'cantPillage' => true,
+            'cantPillage' => false,
         ),
         211 => array
         (

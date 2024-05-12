@@ -147,14 +147,14 @@ define('PLANET_ABANDONTIME'                         , 0);
 define('MAX_PLAYER_PLANETS'                         , 10);
 
 // QueueLength - StructuresQueue
-define('MAX_BUILDING_QUEUE_SIZE'                    , 10);
+define('MAX_BUILDING_QUEUE_SIZE'                    , 15);
 define('MAX_BUILDING_QUEUE_SIZE_PRO'                , 40);
 // QueueLength - ShipyardQueue
-define('MAX_FLEET_OR_DEFS_PER_ROW'                  , 1000000);
-define('MAX_FLEET_OR_DEFS_PER_ROW_PRO'              , 1000000);
+define('MAX_FLEET_OR_DEFS_PER_ROW'                  , 5000000);
+define('MAX_FLEET_OR_DEFS_PER_ROW_PRO'              , 5000000);
 // QueueLength - TechnologyQueue
-define('MAX_TECH_QUEUE_LENGTH'                      , 3);
-define('MAX_TECH_QUEUE_LENGTH_PRO'                  , 10);
+define('MAX_TECH_QUEUE_LENGTH'                      , 5);
+define('MAX_TECH_QUEUE_LENGTH_PRO'                  , 15);
 
 // Maximal Overflow of Storages (1.0 = 100%)
 define('MAX_OVERFLOW'                               , 1.0);
@@ -203,7 +203,7 @@ define('ACS_MAX_JOINED_FLEETS'                      , 15);
 define('ACS_MINIMALFORCECONTRIBUTION'               , 0.05);
 define('COMBAT_MOONPERCENT_RESOURCES'               , 100000);
 // Maximal number of rounds in battle
-define('BATTLE_MAX_ROUNDS'                          , 7);
+define('BATTLE_MAX_ROUNDS'                          , 10);
 define('COMBAT_RESOURCESTEAL_PERCENT'               , 50);
 
 // Constants required for Time Calculations
@@ -215,9 +215,9 @@ define('TIME_DAY'                                   , 86400);
 define('TIME_YEAR'                                  , 31536000);
 
 // --- InGame Constants ---
-define('QUANTUMGATE_INTERVAL_HOURS'                 , 6);
-define('PHALANX_DEUTERIUMCOST'                      , 5000);
-define('SILO_PERLEVELPLACE'                         , 25);
+define('QUANTUMGATE_INTERVAL_HOURS'                 , 2);
+define('PHALANX_DEUTERIUMCOST'                      , 50000);
+define('SILO_PERLEVELPLACE'                         , 0);
 
 // RegExp Definitions
 define('REGEXP_POLISHSIGNS'                         , 'ążśźęćńółĄŻŚŹĘĆŃÓŁ');
