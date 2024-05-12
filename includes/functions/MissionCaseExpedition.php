@@ -4,21 +4,41 @@ use UniEngine\Engine\Modules\Flights;
 
 function calculateFleetValue($parms)
 {
-    global $_Vars_Prices;
+    global $_Vars_Prices, $_Vars_CombatData, $_User;
     $ships = $parms['ships'];
+
+    $techShielding = $_User['tech_shielding'];
+    $techArmour = $_User['tech_armour'];
 
     $totalValue = 0;
 
+    // We need to filter out the ship with id 210 from the array, without altering the original array
+    $ships = array_filter($ships, function ($shipId) {
+        return $shipId != 210;
+    }, ARRAY_FILTER_USE_KEY);
+
     foreach ($ships as $shipId => $shipsAmount) {
         $shipData = $_Vars_Prices[$shipId];
+        $shipEngine = $shipData['engine'];
+        $shipCombatData = $_Vars_CombatData[$shipId];
+
         if ($shipData === null) {
             continue;
         }
-        $metal = $shipData['metal'] ? $shipData['metal'] : 1;
-        $crystal = $shipData['crystal'] ? $shipData['crystal'] : 1;
-        $deuterium = $shipData['deuterium'] ? $shipData['deuterium'] : 1;
-        $capacity = $shipData['capacity'] ? $shipData['capacity'] : 1;
-        $totalValue += $shipsAmount * ((($metal + $crystal + $deuterium) / $capacity) * 0.1);
+        $metal = $shipData['metal'] ?: 0;
+        $crystal = $shipData['crystal'] ?: 0;
+
+        // 4 * 15 + 15
+        $baseHull = $metal + $crystal;
+        $hull = floor((($baseHull / 10) * ($techArmour)) + $baseHull);
+        $shield = floor((($shipCombatData['shield'] / 10) * ($techShielding)) + ($techShielding));
+        $speed = $shipEngine[0]['speed'] ?: 1;
+        $singleShipValue = ($hull + $shield + $speed);
+        $totalShipsValue = $singleShipValue * $shipsAmount;
+
+//        trigger_error('calculateFleetValue', E_USER_ERROR);
+
+        $totalValue += $totalShipsValue;
     }
 
     return $totalValue;
@@ -120,7 +140,8 @@ function MissionCaseExpedition($fleetRow, &$_FleetCache)
         $expeditionEvent = Flights\Utils\Helpers\getRandomExpeditionEvent([]);
         $expeditionOutcome = Flights\Utils\Helpers\getExpeditionEventOutcome([
             'event' => $expeditionEvent,
-            'shipsValue' => $shipsValue
+            'shipsValue' => $shipsValue,
+            'expeditionHours' => floor(($fleetRow['fleet_end_stay'] - $fleetRow['fleet_start_time']) / TIME_HOUR),
         ]);
         $expeditionFinalOutcome = $expeditionOutcome;
 

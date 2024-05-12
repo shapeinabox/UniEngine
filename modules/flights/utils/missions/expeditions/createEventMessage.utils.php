@@ -6,10 +6,11 @@ use UniEngine\Engine\Modules\Flights\Utils\Helpers\ExpeditionEvent;
 
 /**
  * @param array $params
- * @param ExpeditionEvent $params['eventType']
- * @param ExpeditionEvent $params['eventFinalOutcome']
+ * @param ExpeditionEvent $params ['eventType']
+ * @param ExpeditionEvent $params ['eventFinalOutcome']
  */
-function createEventMessage($params) {
+function createEventMessage($params)
+{
     $eventType = $params['eventType'];
 
     switch ($eventType) {
@@ -20,7 +21,8 @@ function createEventMessage($params) {
     }
 }
 
-function _createNothingHappenedEventMessage($params) {
+function _createNothingHappenedEventMessage($params)
+{
     $rollValue = mt_rand(0, 2);
 
     $messageID = strval(110 + $rollValue);
@@ -31,15 +33,16 @@ function _createNothingHappenedEventMessage($params) {
     ];
 }
 
-function _createPlanetaryResourcesFoundEventMessage($params) {
+function _createPlanetaryResourcesFoundEventMessage($params)
+{
     $gainedResources = $params['eventFinalOutcome']['gains']['planetaryResources'];
 
     return [
         'msg_id' => '120',
         'args' => [
-            $gainedResources['metal'],
-            $gainedResources['crystal'],
-            $gainedResources['deuterium'],
+            prettyNumber($gainedResources['metal']),
+            prettyNumber($gainedResources['crystal']),
+            prettyNumber($gainedResources['deuterium']),
         ],
     ];
 }
