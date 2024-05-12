@@ -3,18 +3,21 @@
 /**
  * Maps an array, allowing to access the key of each value
  */
-function array_map_withkeys(array $inputArray, callable $callback) {
+function array_map_withkeys(array $inputArray, callable $callback)
+{
     return array_map($callback, $inputArray, array_keys($inputArray));
 }
 
 /**
  * Filters an array, allowing to access the key of each value
  */
-function array_filter_withkeys(array $inputArray, callable $callback) {
+function array_filter_withkeys(array $inputArray, callable $callback)
+{
     return array_filter($inputArray, $callback, ARRAY_FILTER_USE_BOTH);
 }
 
-function array_find(array $inputArray, callable $callback) {
+function array_find(array $inputArray, callable $callback)
+{
     foreach ($inputArray as $item) {
         if ($callback($item)) {
             return $item;
@@ -24,7 +27,8 @@ function array_find(array $inputArray, callable $callback) {
     return null;
 }
 
-function array_any(array $inputArray, callable $callback) {
+function array_any(array $inputArray, callable $callback)
+{
     foreach ($inputArray as $item) {
         if ($callback($item)) {
             return true;
@@ -38,7 +42,8 @@ function array_any(array $inputArray, callable $callback) {
  * Maps an object, allowing to access the key of each value, and change both key & value.
  * The callback should return a pair of [ $value, $key ]
  */
-function object_map(array $inputObject, callable $callback) {
+function object_map(array $inputObject, callable $callback)
+{
     return array_column(
         array_map($callback, $inputObject, array_keys($inputObject)),
         0,
@@ -58,7 +63,7 @@ function parsetemplate($template, $array)
         '#\{([a-z0-9\-_]*?)\}#Ssi',
         function ($matches) use ($array) {
             return (
-                isset($array[$matches[1]]) ?
+            isset($array[$matches[1]]) ?
                 $array[$matches[1]] :
                 ""
             );
@@ -74,13 +79,15 @@ function gettemplate($templatename)
     return ReadFromFile($_EnginePath . UNIENGINE_TEMPLATE_DIR . UNIENGINE_TEMPLATE_NAME . '/' . $templatename . '.tpl');
 }
 
-function createLocalTemplateLoader($loaderDirPath) {
+function createLocalTemplateLoader($loaderDirPath)
+{
     return function ($templateName) use ($loaderDirPath) {
         return ReadFromFile($loaderDirPath . '/' . $templateName . '.tpl');
     };
 }
 
-function getDefaultUniLang() {
+function getDefaultUniLang()
+{
     if (defined('UNI_DEFAULT_LANG')) {
         return UNI_DEFAULT_LANG;
     }
@@ -88,7 +95,8 @@ function getDefaultUniLang() {
     return UNIENGINE_DEFAULT_LANG;
 }
 
-function getCurrentLang() {
+function getCurrentLang()
+{
     global $_User;
 
     $lang = getDefaultUniLang();
@@ -112,7 +120,8 @@ function getCurrentLang() {
     return $lang;
 }
 
-function getCurrentLangISOCode() {
+function getCurrentLangISOCode()
+{
     return getCurrentLang();
 }
 
@@ -133,7 +142,8 @@ function includeLang($filename, $Return = false)
     }
 }
 
-function langFileExists($filename) {
+function langFileExists($filename)
+{
     global $_EnginePath;
 
     $SelLanguage = getCurrentLang();
@@ -143,7 +153,8 @@ function langFileExists($filename) {
     return file_exists($filepath);
 }
 
-function getJSDatePickerTranslationLang() {
+function getJSDatePickerTranslationLang()
+{
     $lang = getCurrentLang();
 
     $langMapping = [
@@ -169,25 +180,19 @@ function GetNextJumpWaitTime($CurMoon)
 
     $JumpGateLevel = $CurMoon[$_Vars_GameElements[43]];
     $LastJumpTime = $CurMoon['last_jump_time'];
-    if($JumpGateLevel > 0)
-    {
+    if ($JumpGateLevel > 0) {
         $WaitBetweenJmp = 3600 * (1 / $JumpGateLevel);
         $NextJumpTime = $LastJumpTime + $WaitBetweenJmp;
 
         $Now = time();
-        if($NextJumpTime >= $Now)
-        {
+        if ($NextJumpTime >= $Now) {
             $RestWait = $NextJumpTime - $Now;
-            $RestString = ' '.pretty_time($RestWait);
-        }
-        else
-        {
+            $RestString = ' ' . pretty_time($RestWait);
+        } else {
             $RestWait = 0;
             $RestString = '';
         }
-    }
-    else
-    {
+    } else {
         $RestWait = 0;
         $RestString = '';
     }
@@ -221,7 +226,8 @@ function GetNextJumpWaitTime($CurMoon)
 //          - s
 //              Display seconds, in short lang format
 //
-function pretty_time($Seconds, $ChronoType = false, $Format = false) {
+function pretty_time($Seconds, $ChronoType = false, $Format = false)
+{
     global $_Lang;
 
     $timePieces = [];
@@ -286,11 +292,11 @@ function pretty_time($Seconds, $ChronoType = false, $Format = false) {
             $timePieces[] = $_Lang['Chrono_PrettyTime']['longFormat']['seconds']($secondsString);
 //            $timePieces[] = "{$secondsString}s";
         }
-        if ($isPieceAllowed['milliseconds']) {
+        if ($isPieceAllowed['milliseconds'] && $Milliseconds > 0) {
             $timePieces[] = $_Lang['Chrono_PrettyTime']['longFormat']['milliseconds']($millisecondsString);
 //            $timePieces[] = "{$millisecondsString}ms";
         }
-        if ($isPieceAllowed['microseconds']) {
+        if ($isPieceAllowed['microseconds'] && $Microseconds > 0) {
             $timePieces[] = $_Lang['Chrono_PrettyTime']['longFormat']['microseconds']($microsecondsString);
 //            $timePieces[] = "{$microsecondsString}µs";
         }
@@ -330,19 +336,13 @@ function pretty_time_hour($seconds, $NoSpace = false)
 {
     $min = floor($seconds / 60 % 60);
 
-    if($min != 0)
-    {
-        if($NoSpace)
-        {
-            $time = $min.'min';
+    if ($min != 0) {
+        if ($NoSpace) {
+            $time = $min . 'min';
+        } else {
+            $time = $min . 'min ';
         }
-        else
-        {
-            $time = $min.'min ';
-        }
-    }
-    else
-    {
+    } else {
         $time = '';
     }
 
@@ -360,7 +360,7 @@ function prettyMonth($month, $variant = '0')
         $_PrettyMonthsLocaleLoaded = true;
     }
 
-    return $_Lang['months_variant'.$variant][($month-1)];
+    return $_Lang['months_variant' . $variant][($month - 1)];
 }
 
 function prettyDate($format, $timestamp = false, $variant = '0')
@@ -398,10 +398,11 @@ function ShowBuildTime($time)
 {
     global $_Lang;
 
-    return "<br/>{$_Lang['ConstructionTime']}: ".pretty_time($time);
+    return "<br/>{$_Lang['ConstructionTime']}: " . pretty_time($time);
 }
 
-function Array2String($elements) {
+function Array2String($elements)
+{
     $packedElements = [];
 
     foreach ($elements as $elementKey => $elementValue) {
@@ -411,7 +412,8 @@ function Array2String($elements) {
     return implode(';', $packedElements);
 }
 
-function String2Array($content) {
+function String2Array($content)
+{
     $result = [];
 
     $contentElements = explode(';', $content);
@@ -430,17 +432,19 @@ function String2Array($content) {
     }
 
     return (
-        !empty($result) ?
+    !empty($result) ?
         $result :
         null
     );
 }
 
-function keepInRange($value, $min, $max) {
+function keepInRange($value, $min, $max)
+{
     return max(min($value, $max), $min);
 }
 
-function createFuncWithResultHelpers($func) {
+function createFuncWithResultHelpers($func)
+{
     return function ($arguments) use ($func) {
         $createSuccess = function ($payload) {
             return [
