@@ -75,6 +75,9 @@ function GetBuildingTime($TheUser, $ThePlanet, $ElementID)
         $time = $time * 60 * 60;
     }
 
+    if($time >= 1){
+        $time = floor($time);
+    }
     if($time < 0)
     {
         $time = 0;
