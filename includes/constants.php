@@ -217,7 +217,7 @@ define('TIME_YEAR'                                  , 31536000);
 // --- InGame Constants ---
 define('QUANTUMGATE_INTERVAL_HOURS'                 , 2);
 define('PHALANX_DEUTERIUMCOST'                      , 50000);
-define('SILO_PERLEVELPLACE'                         , 0);
+define('SILO_PERLEVELPLACE'                         , 100000);
 
 // RegExp Definitions
 define('REGEXP_POLISHSIGNS'                         , 'ążśźęćńółĄŻŚŹĘĆŃÓŁ');
