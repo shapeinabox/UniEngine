@@ -107,7 +107,7 @@ function createUserWithPlanet($time)
 
     // Set user auth level to 50 (GO)
     $QryUpdateUser = "UPDATE {{table}} SET ";
-    $QryUpdateUser .= "`authlevel` = 50, NoobProtection_EndTime = " . $time;
+    $QryUpdateUser .= "`NoobProtection_EndTime` = " . $time . ", `first_login` = " . $time;
     $QryUpdateUser .= " WHERE `id` = '{$newUser['userId']}';";
     doquery($QryUpdateUser, 'users');
 
