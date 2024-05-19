@@ -16,18 +16,6 @@ use UniEngine\Engine\Modules\Registration;
 $isAuthorised = false;
 
 if (
-    isset($_User['id']) &&
-    $_User['id'] > 0 &&
-    CheckAuth('programmer')
-) {
-    $isAuthorised = true;
-}
-
-if (
-    (
-        !isset($_User['id']) ||
-        $_User['id'] <= 0
-    ) &&
     !empty(AUTOTOOL_STATBUILDER_PASSWORDHASH) &&
     !empty($_GET['pass']) &&
     md5($_GET['pass']) == AUTOTOOL_STATBUILDER_PASSWORDHASH
