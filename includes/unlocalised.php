@@ -235,7 +235,7 @@ function pretty_time($Seconds, $ChronoType = false, $Format = false)
     $Microseconds = floor(($Seconds - floor($Seconds)) * 1000000);
     $Milliseconds = floor($Microseconds / 1000);
     $Microseconds -= $Milliseconds * 1000;
-    $Nanoseconds = $Nanoseconds = $Microseconds > 1000 ? floor($Microseconds * 1000) : 0;
+    $Nanoseconds = $Microseconds > 1000 ? floor($Microseconds * 1000) : 0;
     $Microseconds -= floor($Nanoseconds / 1000);
 
 //    echo $Seconds;
@@ -258,8 +258,8 @@ function pretty_time($Seconds, $ChronoType = false, $Format = false)
     $hoursString = str_pad((string)$Hours, 2, '0', STR_PAD_LEFT);
     $minutesString = str_pad((string)$Minutes, 2, '0', STR_PAD_LEFT);
     $secondsString = str_pad((string)$Seconds, 2, '0', STR_PAD_LEFT);
-    $microsecondsString = str_pad((string)$Microseconds, 3, '0', STR_PAD_LEFT);
     $millisecondsString = str_pad((string)$Milliseconds, 3, '0', STR_PAD_LEFT);
+    $microsecondsString = str_pad((string)$Microseconds, 3, '0', STR_PAD_LEFT);
     $nanosecondsString = str_pad((string)$Nanoseconds, 3, '0', STR_PAD_LEFT);
 
     if ($ChronoType === false) {
@@ -272,8 +272,8 @@ function pretty_time($Seconds, $ChronoType = false, $Format = false)
             'hours' => (strstr($Format, 'h') !== false),
             'minutes' => (strstr($Format, 'm') !== false),
             'seconds' => (strstr($Format, 's') !== false),
-            'microseconds' => (strstr($Format, 'u') !== false),
             'milliseconds' => (strstr($Format, 'i') !== false),
+            'microseconds' => (strstr($Format, 'u') !== false),
         ];
 
         if ($Days > 0 && $isPieceAllowed['days']) {

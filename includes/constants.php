@@ -113,8 +113,8 @@ define('BASH_PERUSER'                               , 15);
 define('BASH_PERPLANET'                             , 5);
 
 // Definition of Known Universe
-define('MAX_GALAXY_IN_WORLD'                        , 6);
-define('MAX_SYSTEM_IN_GALAXY'                       , 200);
+define('MAX_GALAXY_IN_WORLD'                        , 1);
+define('MAX_SYSTEM_IN_GALAXY'                       , 150);
 define('MAX_PLANET_IN_SYSTEM'                       , 15);
 
 // Number of columns in SpyReport
@@ -142,13 +142,13 @@ define('NONACTIVE_DELETETIME'                       , 604800); // 7d
 define('FIELDS_BY_MOONBASIS_LEVEL'                  , 4);
 define('FIELDS_ADDED_BY_TERRAFORMER'                , 5);
 // How much time must pass, untill Planet will be deleted? (0 means instant deletion on Abandon) [Seconds]
-define('PLANET_ABANDONTIME'                         , 0);
+define('PLANET_ABANDONTIME'                         , 86400);
 // Maximal number of planets per user
-define('MAX_PLAYER_PLANETS'                         , 10);
+define('MAX_PLAYER_PLANETS'                         , 12);
 
 // QueueLength - StructuresQueue
 define('MAX_BUILDING_QUEUE_SIZE'                    , 15);
-define('MAX_BUILDING_QUEUE_SIZE_PRO'                , 40);
+define('MAX_BUILDING_QUEUE_SIZE_PRO'                , 70);
 // QueueLength - ShipyardQueue
 define('MAX_FLEET_OR_DEFS_PER_ROW'                  , 5000000);
 define('MAX_FLEET_OR_DEFS_PER_ROW_PRO'              , 5000000);

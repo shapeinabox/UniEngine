@@ -67,7 +67,7 @@ function getExpeditionEventPlanetaryResourcesFoundOutcome($params)
     ];
 
     $shipsValue = $params['shipsValue'];
-    $expeditionHours = $params['expeditionHours'] ?: 1;
+    $expeditionHours = $params['expeditionHours'] < 1 ? 1 : $params['expeditionHours'];
 
     $minFactor = 0;
     $maxFactor = 4;
@@ -86,16 +86,19 @@ function getExpeditionEventPlanetaryResourcesFoundOutcome($params)
         $maxFactor = 9;
     }
 
-//    echo "Ships value: $shipsValue\n";
-//    echo "Expedition hours: $expeditionHours\n";
-//    echo "Min factor: $minFactor\n";
-//    echo "Max factor: $maxFactor\n";
-//    trigger_error('calculateFleetValue', E_USER_ERROR);
+    $logBase1 = 1.55;
+    $logBase2 = 1.55;
+
+    //    echo "Ships value: $shipsValue\n";
+    //    echo "Expedition hours: $expeditionHours\n";
+    //    echo "Min factor: $minFactor\n";
+    //    echo "Max factor: $maxFactor\n";
+    //    trigger_error('calculateFleetValue', E_USER_ERROR);
 
     $resourcesFound = [
-        'metal' => floor(($baseResources['metal'] * getRandomFactor($minFactor, $maxFactor) * log($shipsValue / 15, 1.55) * pow(1.1, log($shipsValue / 15, 1.55)))) * $expeditionHours,
-        'crystal' => floor(($baseResources['crystal'] * getRandomFactor($minFactor, $maxFactor) * log($shipsValue / 15, 1.55) * pow(1.1, log($shipsValue / 15, 1.55)))) * $expeditionHours,
-        'deuterium' => floor(($baseResources['deuterium'] * getRandomFactor($minFactor, $maxFactor) * log($shipsValue / 15, 1.55) * pow(1.1, log($shipsValue / 15, 1.55)))) * $expeditionHours
+        'metal' => floor(($baseResources['metal'] * getRandomFactor($minFactor, $maxFactor) * log($shipsValue / 15, $logBase1) * pow(1.1, log($shipsValue / 15, $logBase2)))) * $expeditionHours,
+        'crystal' => floor(($baseResources['crystal'] * getRandomFactor($minFactor, $maxFactor) * log($shipsValue / 15, $logBase1) * pow(1.1, log($shipsValue / 15, $logBase2)))) * $expeditionHours,
+        'deuterium' => floor(($baseResources['deuterium'] * getRandomFactor($minFactor, $maxFactor) * log($shipsValue / 15, $logBase1) * pow(1.1, log($shipsValue / 15, $logBase2)))) * $expeditionHours
     ];
 
     return [
@@ -104,5 +107,3 @@ function getExpeditionEventPlanetaryResourcesFoundOutcome($params)
         ]
     ];
 }
-
-?>

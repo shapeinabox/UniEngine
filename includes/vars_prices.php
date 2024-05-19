@@ -485,7 +485,7 @@ if(defined('INSIDE'))
                     'consumption' => 1
                 )
             ),
-            'capacity' => 5,
+            'capacity' => 20,
             'cantPillage' => false,
         ),
         211 => array

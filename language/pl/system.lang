@@ -31,11 +31,11 @@ $_Lang['Chrono_PrettyTime'] = [
         'seconds' => function ($seconds) {
             return "{$seconds}s";
         },
-                 'milliseconds' => function ($seconds) {
+                 'milliseconds' => function ($milliseconds) {
                      return "{$milliseconds}ms";
                  },
-                 'microseconds' => function ($seconds) {
-                     return "{microseconds}ms";
+                 'microseconds' => function ($microseconds) {
+                     return "{$microseconds}us";
                  }
     ],
     'chronoFormat' => [
