@@ -74,8 +74,7 @@ function createUserWithPlanet($time)
         'password' => bin2hex(random_bytes(16)),
     ]);
 
-
-    $usernameCategory = rand(1, 3);
+    $usernameCategory = rand(1, 2);
     if ($usernameCategory == 1) {
         $Username = generateAlienName();
     } else {
