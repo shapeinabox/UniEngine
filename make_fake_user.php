@@ -71,7 +71,7 @@ function createUserWithPlanet($time)
 {
     // Generate random password for fake user
     $passwordHash = Session\Utils\LocalIdentityV1\hashPassword([
-        'password' => bin2hex(random_bytes(16)),
+        'password' => "password56758",
     ]);
 
     $usernameCategory = rand(1, 2);
