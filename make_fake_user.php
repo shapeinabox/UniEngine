@@ -351,7 +351,7 @@ function updatePlanetInfo($PlanetID, $buildings, $fleet, $defenses)
         $currentPlanet,
         $insertNewUserResult,
         [
-            'start' => $currentPlanet['last_update'],
+            'start' => time() - 1,
             'end' => time()
         ]
     );
