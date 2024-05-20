@@ -80,7 +80,7 @@ function createUserWithPlanet($time)
     } else {
         $Username = generateDragonkinName(rand(1, 2));
     }
-    $Username .= " (f)";
+//    $Username .= " (f)";
 
     // Generate random username for fake user and infos
     $newUser = Registration\Utils\Queries\insertNewUser([
@@ -128,9 +128,6 @@ function createUserWithPlanet($time)
 
 function createPlanetWithMoon($newPlanetCoordinates, $UserID, $isMotherPlanet = false)
 {
-    global $_Lang;
-
-
     $PlanetData = CreateOnePlanetRecord(
         $newPlanetCoordinates['galaxy'],
         $newPlanetCoordinates['system'],
@@ -207,20 +204,26 @@ function makeMiner($UserID, $MotherPlanetID, $powerLevel)
 
     // For each planet count - 1, create a new planet
     $planetsIDs = [$MotherPlanetID];
-    for ($i = 0; $i < $planetsCount - 2; $i++) {
+    for ($i = 0; $i < $planetsCount - 1; $i++) {
         $newPlanetCoordinates = Registration\Utils\Galaxy\findNewPlanetPosition([
             'preferredGalaxy' => 1
         ]);
         $newPlanet = createPlanetWithMoon($newPlanetCoordinates, $UserID);
         $planetsIDs[] = $newPlanet['planetID'];
     }
+    echo "Creating " . $planetsCount . " planets: " . implode(", ", $planetsIDs) . "<br>";
 
     foreach ($planetsIDs as $PlanetID) {
+        $metalMine = rand(34, 42) + $powerLevel;
+        $crystalMine = rand(32, 40) + $powerLevel;
+        $deuteriumSynthesizer = rand(33, 42) + $powerLevel;
+        $maxMineLevel = max($metalMine, $crystalMine, $deuteriumSynthesizer);
+        $solarPlant = $maxMineLevel + 6;
         $buildings = [
-            "1" => rand(34, 42) + $powerLevel,
-            "2" => rand(32, 40) + $powerLevel,
-            "3" => rand(33, 42) + $powerLevel,
-            "4" => rand(34, 44) + $powerLevel,
+            "1" => $metalMine,
+            "2" => $crystalMine,
+            "3" => $deuteriumSynthesizer,
+            "4" => $solarPlant,
             "14" => rand(10, 20),
             "15" => rand(8, 20),
             "21" => rand(12, 25),
@@ -245,21 +248,27 @@ function makeFleeter($UserID, $MotherPlanetID, $powerLevel)
 
     // For each planet count - 1, create a new planet
     $planetsIDs = [$MotherPlanetID];
-    for ($i = 0; $i < $planetsCount - 2; $i++) {
+    for ($i = 0; $i < $planetsCount - 1; $i++) {
         $newPlanetCoordinates = Registration\Utils\Galaxy\findNewPlanetPosition([
             'preferredGalaxy' => 1
         ]);
         $newPlanet = createPlanetWithMoon($newPlanetCoordinates, $UserID);
         $planetsIDs[] = $newPlanet['planetID'];
     }
+    echo "Creating " . $planetsCount . " planets: " . implode(", ", $planetsIDs) . "<br>";
 
     // For each planetid, generate buildings fleet and defenses
     foreach ($planetsIDs as $PlanetID) {
+        $metalMine = rand(30, 38) + $powerLevel;
+        $crystalMine = rand(28, 36) + $powerLevel;
+        $deuteriumSynthesizer = rand(27, 33) + $powerLevel;
+        $maxMineLevel = max($metalMine, $crystalMine, $deuteriumSynthesizer);
+        $solarPlant = $maxMineLevel + 6;
         $buildings = [
-            "1" => rand(30, 38) + $powerLevel,
-            "2" => rand(28, 36) + $powerLevel,
-            "3" => rand(27, 33) + $powerLevel,
-            "4" => rand(30, 38) + $powerLevel,
+            "1" => $metalMine,
+            "2" => $crystalMine,
+            "3" => $deuteriumSynthesizer,
+            "4" => $solarPlant,
             "14" => rand(10, 20),
             "15" => rand(8, 20),
             "21" => rand(12, 25),
@@ -351,6 +360,7 @@ function updatePlanetInfo($PlanetID, $buildings, $fleet, $defenses)
         $Query_Update_Arr[] = "`{$Value}` = '{$currentPlanet[$Value]}'";
     }
     $Query_Update = "UPDATE {{table}} SET " . implode(', ', $Query_Update_Arr) . " WHERE `id` = {$currentPlanet['id']} LIMIT 1;";
+    echo "Updating plane:" . $Query_Update . "<br>";
     doquery($Query_Update, 'planets');
 }
 
