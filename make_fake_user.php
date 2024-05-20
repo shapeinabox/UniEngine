@@ -357,7 +357,9 @@ function updatePlanetInfo($PlanetID, $buildings, $fleet, $defenses)
     );
     $HPQ_PlanetUpdatedFields = array_unique(["metal_perhour", "crystal_perhour", "deuterium_perhour", "energy_max", "energy_used", "last_update"]);
     foreach ($HPQ_PlanetUpdatedFields as $Value) {
-        $Query_Update_Arr[] = "`{$Value}` = '{$currentPlanet[$Value]}'";
+        // For some reason _recalculateHourlyProductionLevels returns productions that are 10 times less that what they should be
+        $value = $currentPlanet[$Value] * 10;
+        $Query_Update_Arr[] = "`{$Value}` = '{$value}'";
     }
     $Query_Update = "UPDATE {{table}} SET " . implode(', ', $Query_Update_Arr) . " WHERE `id` = {$currentPlanet['id']} LIMIT 1;";
     echo "Updating plane:" . $Query_Update . "<br>";
