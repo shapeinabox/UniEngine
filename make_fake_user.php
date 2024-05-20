@@ -196,7 +196,7 @@ function setUserTechLevels($UserID)
 
 function makeMiner($UserID, $MotherPlanetID, $powerLevel)
 {
-    $planetsCount = rand(1, 8);
+    $planetsCount = rand(3, 10);
 
     if ($powerLevel > 10) {
         $powerLevel = 10;
@@ -241,7 +241,7 @@ function makeMiner($UserID, $MotherPlanetID, $powerLevel)
 
 function makeFleeter($UserID, $MotherPlanetID, $powerLevel)
 {
-    $planetsCount = rand(1, 5);
+    $planetsCount = rand(1, 4);
     if ($powerLevel > 10) {
         $powerLevel = 10;
     }
