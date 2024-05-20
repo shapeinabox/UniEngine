@@ -47,13 +47,12 @@ function makeFakeUser()
         makeFleeter($UserID, $PlanetID, $powerLevel);
     }
 
-    echo "User created with ID: " . $UserID . " and userName: " . $NewUserData['username'];
+    echo "User created with ID: " . $UserID . " and userName: " . $NewUserData['username'] . ". With power level " . $powerLevel;
 }
 
-function calculateDefenses($minLasers, $maxLasers)
+function calculateDefenses($minLasers, $maxLasers, $powerLevel)
 {
     $lightLasers = rand($minLasers, $maxLasers);
-
 
     $defenses = [
         "401" => floor($lightLasers / 100) * 500,
@@ -62,7 +61,7 @@ function calculateDefenses($minLasers, $maxLasers)
         "404" => floor($lightLasers / 100) * 4,
         "405" => floor($lightLasers / 100) * 8,
         "406" => floor($lightLasers / 100) * 2,
-        "502" => rand(250000, 1500000)
+        "502" => rand(500 * $powerLevel, 50000 * $powerLevel)
     ];
 
     return $defenses;
@@ -232,7 +231,7 @@ function makeMiner($UserID, $MotherPlanetID, $powerLevel)
             "31" => rand(10, 20),
             "44" => rand(8, 18),
         ];
-        $defenses = calculateDefenses(1 * $powerLevel, 1000 * $powerLevel);
+        $defenses = calculateDefenses(10 * $powerLevel, 10000 * $powerLevel, min($powerLevel, 7));
 
         updatePlanetInfo($PlanetID, $buildings, [], $defenses);
     }
@@ -289,7 +288,7 @@ function makeFleeter($UserID, $MotherPlanetID, $powerLevel)
             "223" => rand(0, 3) > 1 ? rand(0, 1000 * $powerLevel) : 0,
             "224" => rand(0, 3) > 1 ? rand(0, 500 * $powerLevel) : 0,
         ];
-        $defenses = calculateDefenses(1 * $powerLevel, 1000 * $powerLevel);;
+        $defenses = calculateDefenses(1 * $powerLevel, 1000 * $powerLevel, min($powerLevel, 5));
 
         updatePlanetInfo($PlanetID, $buildings, $fleet, $defenses);
     }
