@@ -241,7 +241,7 @@ function makeMiner($UserID, $MotherPlanetID, $powerLevel)
 
 function makeFleeter($UserID, $MotherPlanetID, $powerLevel)
 {
-    $planetsCount = rand(1, 4);
+    $planetsCount = rand(1, 3);
     if ($powerLevel > 10) {
         $powerLevel = 10;
     }
@@ -280,23 +280,23 @@ function makeFleeter($UserID, $MotherPlanetID, $powerLevel)
         ];
 
         $fleet = [
-            "204" => rand(0, 3) > 1 ? rand(0, 1000000 * $powerLevel) : 0,
-            "205" => rand(0, 3) > 1 ? rand(0, 600000 * $powerLevel) : 0,
-            "206" => rand(0, 3) > 1 ? rand(0, 400000 * $powerLevel) : 0,
-            "207" => rand(0, 3) > 1 ? rand(0, 200000 * $powerLevel) : 0,
-            "210" => rand(0, 3) > 1 ? rand(0, 100000 * $powerLevel) : 0,
-            "213" => rand(0, 3) > 1 ? rand(0, 50000 * $powerLevel) : 0,
-            "214" => rand(0, 3) > 1 ? rand(0, 100 * $powerLevel) : 0,
-            "215" => rand(0, 3) > 1 ? rand(0, 200000 * $powerLevel) : 0,
-            "216" => rand(0, 3) > 1 ? rand(0, 10 * $powerLevel) : 0,
-            "218" => rand(0, 3) > 1 ? rand(0, 1000 * $powerLevel) : 0,
-            "220" => rand(0, 3) > 1 ? rand(0, 1000 * $powerLevel) : 0,
-            "221" => rand(0, 3) > 1 ? rand(0, 1000 * $powerLevel) : 0,
-            "222" => rand(0, 3) > 1 ? rand(0, 1000 * $powerLevel) : 0,
-            "223" => rand(0, 3) > 1 ? rand(0, 1000 * $powerLevel) : 0,
-            "224" => rand(0, 3) > 1 ? rand(0, 500 * $powerLevel) : 0,
+            "204" => rand(0, 3) > 1 ? rand(0, 2000000 * $powerLevel) : 0,
+            "205" => rand(0, 3) > 1 ? rand(0, 800000 * $powerLevel) : 0,
+            "206" => rand(0, 3) > 1 ? rand(0, 600000 * $powerLevel) : 0,
+            "207" => rand(0, 3) > 1 ? rand(0, 400000 * $powerLevel) : 0,
+            "210" => rand(0, 3) > 1 ? rand(0, 300000 * $powerLevel) : 0,
+            "213" => rand(0, 3) > 1 ? rand(0, 70000 * $powerLevel) : 0,
+            "214" => rand(0, 3) > 1 ? rand(0, 1000 * $powerLevel) : 0,
+            "215" => rand(0, 3) > 1 ? rand(0, 300000 * $powerLevel) : 0,
+            "216" => rand(0, 3) > 1 ? rand(0, 100 * $powerLevel) : 0,
+            "218" => rand(0, 3) > 1 ? rand(0, 3000 * $powerLevel) : 0,
+            "220" => rand(0, 3) > 1 ? rand(0, 3000 * $powerLevel) : 0,
+            "221" => rand(0, 3) > 1 ? rand(0, 3000 * $powerLevel) : 0,
+            "222" => rand(0, 3) > 1 ? rand(0, 3000 * $powerLevel) : 0,
+            "223" => rand(0, 3) > 1 ? rand(0, 3000 * $powerLevel) : 0,
+            "224" => rand(0, 3) > 1 ? rand(0, 1000 * $powerLevel) : 0,
         ];
-        $defenses = calculateDefenses(1 * $powerLevel, 1000 * $powerLevel, min($powerLevel, 5));
+        $defenses = calculateDefenses(1 * $powerLevel, 10000 * $powerLevel, min($powerLevel, 5));
 
         updatePlanetInfo($PlanetID, $buildings, $fleet, $defenses);
     }
