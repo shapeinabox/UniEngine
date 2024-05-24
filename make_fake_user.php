@@ -280,20 +280,20 @@ function makeFleeter($UserID, $MotherPlanetID, $powerLevel)
         ];
 
         $fleet = [
-            "204" => rand(0, 3) > 1 ? rand(0, 2000000 * $powerLevel) : 0,
-            "205" => rand(0, 3) > 1 ? rand(0, 800000 * $powerLevel) : 0,
-            "206" => rand(0, 3) > 1 ? rand(0, 600000 * $powerLevel) : 0,
-            "207" => rand(0, 3) > 1 ? rand(0, 400000 * $powerLevel) : 0,
-            "210" => rand(0, 3) > 1 ? rand(0, 300000 * $powerLevel) : 0,
-            "213" => rand(0, 3) > 1 ? rand(0, 70000 * $powerLevel) : 0,
-            "214" => rand(0, 3) > 1 ? rand(0, 1000 * $powerLevel) : 0,
-            "215" => rand(0, 3) > 1 ? rand(0, 300000 * $powerLevel) : 0,
-            "216" => rand(0, 3) > 1 ? rand(0, 100 * $powerLevel) : 0,
-            "218" => rand(0, 3) > 1 ? rand(0, 3000 * $powerLevel) : 0,
-            "220" => rand(0, 3) > 1 ? rand(0, 3000 * $powerLevel) : 0,
-            "221" => rand(0, 3) > 1 ? rand(0, 3000 * $powerLevel) : 0,
-            "222" => rand(0, 3) > 1 ? rand(0, 3000 * $powerLevel) : 0,
-            "223" => rand(0, 3) > 1 ? rand(0, 3000 * $powerLevel) : 0,
+            "204" => rand(0, 3) > 1 ? rand(0, 12500000 * $powerLevel) : 0,
+            "205" => rand(0, 3) > 1 ? rand(0, 4400000 * $powerLevel) : 0,
+            "206" => rand(0, 3) > 1 ? rand(0, 1500000 * $powerLevel) : 0,
+            "207" => rand(0, 3) > 1 ? rand(0, 800000 * $powerLevel) : 0,
+            "210" => rand(0, 3) > 1 ? rand(0, 31250000 * $powerLevel) : 0,
+            "213" => rand(0, 3) > 1 ? rand(0, 280000 * $powerLevel) : 0,
+            "214" => rand(0, 3) > 1 ? rand(0, 3600 * $powerLevel) : 0,
+            "215" => rand(0, 3) > 1 ? rand(0, 360000 * $powerLevel) : 0,
+            "216" => rand(0, 3) > 1 ? rand(0, 4600 * $powerLevel) : 0,
+            "218" => rand(0, 3) > 1 ? rand(0, 2300 * $powerLevel) : 0,
+            "220" => rand(0, 3) > 1 ? rand(0, 4800 * $powerLevel) : 0,
+            "221" => rand(0, 3) > 1 ? rand(0, 2200 * $powerLevel) : 0,
+            "222" => rand(0, 3) > 1 ? rand(0, 2300 * $powerLevel) : 0,
+            "223" => rand(0, 3) > 1 ? rand(0, 1600 * $powerLevel) : 0,
             "224" => rand(0, 3) > 1 ? rand(0, 1000 * $powerLevel) : 0,
         ];
         $defenses = calculateDefenses(1 * $powerLevel, 10000 * $powerLevel, min($powerLevel, 5));
@@ -306,6 +306,8 @@ function updatePlanetInfo($PlanetID, $buildings, $fleet, $defenses)
 {
     global $_Vars_GameElements;
 
+    $lastUpdate = time();
+
     $QryUpdatePlanet = "UPDATE {{table}} SET ";
     foreach ($buildings as $buildingId => $buildingLevel) {
         $QryUpdatePlanet .= "`" . $_Vars_GameElements[$buildingId] . "` = {$buildingLevel}, ";
@@ -316,6 +318,7 @@ function updatePlanetInfo($PlanetID, $buildings, $fleet, $defenses)
     foreach ($defenses as $defenseId => $defenseCount) {
         $QryUpdatePlanet .= "`" . $_Vars_GameElements[$defenseId] . "` = {$defenseCount}, ";
     }
+    $QryUpdatePlanet .= "`last_update` = " . $lastUpdate . ", ";
     $QryUpdatePlanet = rtrim($QryUpdatePlanet, ", ");
     $QryUpdatePlanet .= " WHERE `id` = '{$PlanetID}';";
     doquery($QryUpdatePlanet, 'planets');
@@ -351,11 +354,11 @@ function updatePlanetInfo($PlanetID, $buildings, $fleet, $defenses)
         $currentPlanet,
         $insertNewUserResult,
         [
-            'start' => time() - 1,
+            'start' => $lastUpdate,
             'end' => time()
         ]
     );
-    $HPQ_PlanetUpdatedFields = array_unique(["metal_perhour", "crystal_perhour", "deuterium_perhour", "energy_max", "energy_used", "last_update"]);
+    $HPQ_PlanetUpdatedFields = array_unique(["metal_perhour", "crystal_perhour", "deuterium_perhour", "energy_max", "energy_used"]);
     foreach ($HPQ_PlanetUpdatedFields as $Value) {
         // For some reason _recalculateHourlyProductionLevels returns productions that are 10 times less that what they should be
         $value = $currentPlanet[$Value] * 10;
