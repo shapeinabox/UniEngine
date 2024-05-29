@@ -93,18 +93,13 @@ function createUserWithPlanet($time)
         'currentTimestamp' => $time,
     ]);
 
-    $newCoordinatesMaxAttempts = 5;
-    $newPlanetCoordinates = Registration\Utils\Galaxy\findNewPlanetPosition([
-        'preferredGalaxy' => 1
-    ]);
-    while ($newPlanetCoordinates === null && $newCoordinatesMaxAttempts > 0) {
+    do {
         $newPlanetCoordinates = Registration\Utils\Galaxy\findNewPlanetPosition([
             'preferredGalaxy' => 1
         ]);
-        $newCoordinatesMaxAttempts--;
-    }
 
-    $planets = createPlanetWithMoon($newPlanetCoordinates, $newUser['userId'], true);
+        $planets = createPlanetWithMoon($newPlanetCoordinates, $newUser['userId'], true);
+    } while ($newPlanetCoordinates === null || $planets['planetID'] === null);
 
     Registration\Utils\Queries\incrementUsersCounterInGameConfig();
     // Update User with new data
@@ -135,33 +130,30 @@ function createUserWithPlanet($time)
 
 function createPlanetWithMoon($newPlanetCoordinates, $UserID, $isMotherPlanet = false)
 {
-    do {
-        $PlanetData = CreateOnePlanetRecord(
-            $newPlanetCoordinates['galaxy'],
-            $newPlanetCoordinates['system'],
-            $newPlanetCoordinates['planet'],
-            $UserID,
-            $isMotherPlanet ? "Mother Planet" : generatePlanetName(),
-            true,
-            null,
-            true
-        );
-    } while ($PlanetData === null || !$PlanetData['ID']);
+
+    $PlanetData = CreateOnePlanetRecord(
+        $newPlanetCoordinates['galaxy'],
+        $newPlanetCoordinates['system'],
+        $newPlanetCoordinates['planet'],
+        $UserID,
+        $isMotherPlanet ? "Mother Planet" : generatePlanetName(),
+        true,
+        null,
+        true
+    );
 
     $PlanetID = $PlanetData['ID'];
     $MoonID = null;
 
     // Randomly also create a moon at the same coordinates
     if (rand(0, 1) == 1) {
-        do {
-            $MoonID = CreateOneMoonRecord([
-                'coordinates' => $newPlanetCoordinates,
-                'ownerID' => $UserID,
-                'moonName' => generatePlanetName(),
-                'moonCreationChance' => rand(5, 15),
-                'fixedDiameter' => null
-            ]);
-        } while ($MoonID === null);
+        $MoonID = CreateOneMoonRecord([
+            'coordinates' => $newPlanetCoordinates,
+            'ownerID' => $UserID,
+            'moonName' => generatePlanetName(),
+            'moonCreationChance' => rand(5, 15),
+            'fixedDiameter' => null
+        ]);
     }
 
     return [
@@ -214,11 +206,12 @@ function makeMiner($UserID, $MotherPlanetID, $powerLevel)
     // For each planet count - 1, create a new planet
     $planetsIDs = [$MotherPlanetID];
     for ($i = 0; $i < $planetsCount - 1; $i++) {
-        $newPlanetCoordinates = Registration\Utils\Galaxy\findNewPlanetPosition([
-            'preferredGalaxy' => 1
-        ]);
-        $newPlanet = createPlanetWithMoon($newPlanetCoordinates, $UserID);
-        $planetsIDs[] = $newPlanet['planetID'];
+        do {
+            $newPlanetCoordinates = Registration\Utils\Galaxy\findNewPlanetPosition([
+                'preferredGalaxy' => 1
+            ]);
+            $newPlanet = createPlanetWithMoon($newPlanetCoordinates, $UserID, true);
+        } while ($newPlanetCoordinates === null || $newPlanet['planetID'] === null);
     }
     echo "Creating " . $planetsCount . " planets: " . implode(", ", $planetsIDs) . "<br>";
 
