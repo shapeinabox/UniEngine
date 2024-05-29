@@ -69,6 +69,7 @@ function calculateDefenses($minLasers, $maxLasers, $powerLevel)
 
 function createUserWithPlanet($time)
 {
+
     // Generate random password for fake user
     $passwordHash = Session\Utils\LocalIdentityV1\hashPassword([
         'password' => "password56758",
@@ -80,7 +81,7 @@ function createUserWithPlanet($time)
     } else {
         $Username = generateDragonkinName(rand(1, 2));
     }
-//    $Username .= " (f)";
+    $Username .= " (f)";
 
     // Generate random username for fake user and infos
     $newUser = Registration\Utils\Queries\insertNewUser([
@@ -92,10 +93,16 @@ function createUserWithPlanet($time)
         'currentTimestamp' => $time,
     ]);
 
+    $newCoordinatesMaxAttempts = 5;
     $newPlanetCoordinates = Registration\Utils\Galaxy\findNewPlanetPosition([
         'preferredGalaxy' => 1
     ]);
-    // $newPlanetCoordinates could return an error code of 'GALAXY_TOO_CROWDED'
+    while ($newPlanetCoordinates === null && $newCoordinatesMaxAttempts > 0) {
+        $newPlanetCoordinates = Registration\Utils\Galaxy\findNewPlanetPosition([
+            'preferredGalaxy' => 1
+        ]);
+        $newCoordinatesMaxAttempts--;
+    }
 
     $planets = createPlanetWithMoon($newPlanetCoordinates, $newUser['userId'], true);
 
