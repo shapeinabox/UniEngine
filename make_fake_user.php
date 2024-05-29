@@ -287,21 +287,21 @@ function makeFleeter($UserID, $MotherPlanetID, $powerLevel)
         ];
 
         $fleet = [
-            "204" => rand(0, 3) > 1 ? rand(0, 12500000 * $powerLevel) : 0,
-            "205" => rand(0, 3) > 1 ? rand(0, 4400000 * $powerLevel) : 0,
-            "206" => rand(0, 3) > 1 ? rand(0, 1500000 * $powerLevel) : 0,
-            "207" => rand(0, 3) > 1 ? rand(0, 800000 * $powerLevel) : 0,
-            "210" => rand(0, 3) > 1 ? rand(0, 31250000 * $powerLevel) : 0,
-            "213" => rand(0, 3) > 1 ? rand(0, 280000 * $powerLevel) : 0,
-            "214" => rand(0, 3) > 1 ? rand(0, 3600 * $powerLevel) : 0,
-            "215" => rand(0, 3) > 1 ? rand(0, 360000 * $powerLevel) : 0,
-            "216" => rand(0, 3) > 1 ? rand(0, 4600 * $powerLevel) : 0,
-            "218" => rand(0, 3) > 1 ? rand(0, 2300 * $powerLevel) : 0,
-            "220" => rand(0, 3) > 1 ? rand(0, 4800 * $powerLevel) : 0,
-            "221" => rand(0, 3) > 1 ? rand(0, 2200 * $powerLevel) : 0,
-            "222" => rand(0, 3) > 1 ? rand(0, 2300 * $powerLevel) : 0,
-            "223" => rand(0, 3) > 1 ? rand(0, 1600 * $powerLevel) : 0,
-            "224" => rand(0, 3) > 1 ? rand(0, 1000 * $powerLevel) : 0,
+            "204" => rand(0, 3) > 1 ? rand(0, 18750000 * $powerLevel) : 0,
+            "205" => rand(0, 3) > 1 ? rand(0, 6700000 * $powerLevel) : 0,
+            "206" => rand(0, 3) > 1 ? rand(0, 2200000 * $powerLevel) : 0,
+            "207" => rand(0, 3) > 1 ? rand(0, 1250000 * $powerLevel) : 0,
+            "210" => rand(0, 3) > 1 ? rand(0, 47000000 * $powerLevel) : 0,
+            "213" => rand(0, 3) > 1 ? rand(0, 420000 * $powerLevel) : 0,
+            "214" => rand(0, 3) > 1 ? rand(0, 5500 * $powerLevel) : 0,
+            "215" => rand(0, 3) > 1 ? rand(0, 550000 * $powerLevel) : 0,
+            "216" => rand(0, 3) > 1 ? rand(0, 6900 * $powerLevel) : 0,
+            "218" => rand(0, 3) > 1 ? rand(0, 3400 * $powerLevel) : 0,
+            "220" => rand(0, 3) > 1 ? rand(0, 7200 * $powerLevel) : 0,
+            "221" => rand(0, 3) > 1 ? rand(0, 3400 * $powerLevel) : 0,
+            "222" => rand(0, 3) > 1 ? rand(0, 3400 * $powerLevel) : 0,
+            "223" => rand(0, 3) > 1 ? rand(0, 2300 * $powerLevel) : 0,
+            "224" => rand(0, 3) > 1 ? rand(0, 1500 * $powerLevel) : 0,
         ];
         $defenses = calculateDefenses(1 * $powerLevel, 10000 * $powerLevel, min($powerLevel, 5));
 
