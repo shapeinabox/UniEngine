@@ -135,31 +135,33 @@ function createUserWithPlanet($time)
 
 function createPlanetWithMoon($newPlanetCoordinates, $UserID, $isMotherPlanet = false)
 {
-    $PlanetData = CreateOnePlanetRecord(
-        $newPlanetCoordinates['galaxy'],
-        $newPlanetCoordinates['system'],
-        $newPlanetCoordinates['planet'],
-        $UserID,
-        $isMotherPlanet ? "Mother Planet" : generatePlanetName(),
-        true,
-        null,
-        true
-    );
+    do {
+        $PlanetData = CreateOnePlanetRecord(
+            $newPlanetCoordinates['galaxy'],
+            $newPlanetCoordinates['system'],
+            $newPlanetCoordinates['planet'],
+            $UserID,
+            $isMotherPlanet ? "Mother Planet" : generatePlanetName(),
+            true,
+            null,
+            true
+        );
+    } while ($PlanetData === null || !$PlanetData['ID']);
 
     $PlanetID = $PlanetData['ID'];
     $MoonID = null;
 
     // Randomly also create a moon at the same coordinates
     if (rand(0, 1) == 1) {
-
-
-        $MoonID = CreateOneMoonRecord([
-            'coordinates' => $newPlanetCoordinates,
-            'ownerID' => $UserID,
-            'moonName' => generatePlanetName(),
-            'moonCreationChance' => rand(5, 15),
-            'fixedDiameter' => null
-        ]);
+        do {
+            $MoonID = CreateOneMoonRecord([
+                'coordinates' => $newPlanetCoordinates,
+                'ownerID' => $UserID,
+                'moonName' => generatePlanetName(),
+                'moonCreationChance' => rand(5, 15),
+                'fixedDiameter' => null
+            ]);
+        } while ($MoonID === null);
     }
 
     return [
